@@ -1,6 +1,6 @@
 ## 简介
-一个基于Gin框架的封装轻量级Go语言业务框架，代码编写上分成Controller Model Service 三层（目前不支持返回视图），
-易于让习惯了PHP MVC WEB框架开发的同学上手
+一个基于Gin框架的封装轻量级Go语言业务框架，代码编写上分成Controller Model Service 三层（目前不支持返回视图）。
+框架目录结构参考PHP Laravel框架，易于让习惯了PHP MVC WEB框架开发的同学上手。
 
 ## 开发环境搭建
 
@@ -45,6 +45,9 @@ go mod vendor
 ```sh
 sh build/shell/replace.sh [新项目的包命名空间，如github.com/qit-team/snow]
 ```
+
+## Wiki
+[https://github.com/qit-team/snow/wiki](https://github.com/qit-team/snow/wiki)
 
 
 
