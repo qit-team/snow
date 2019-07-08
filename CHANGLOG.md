@@ -3,11 +3,11 @@
 新特性:
  - 支持多模式：HTTP(平滑重启)、队列调度(平滑结束)、任务调度
  - 常用组件支持:
-    - ORM：MySQL、Postgres、Sqlite3、SQL Server、TiDB...
+    - Database：MySQL、Postgres、Sqlite3、SQL Server、TiDB...
     - Redis
-    - Logger
     - Cache: redis
     - Queue: alimns redis
+    - Logger
     - Conifg: toml
     - Reuqest and Response
     - Curl 
