@@ -1,4 +1,5 @@
-![snow](docs/img/snow1.png)
+<img src='docs/img/snow1.png' width="200">
+
 
 [![Language](https://img.shields.io/badge/Language-Go-blue.svg)](https://golang.org/)
 [![GoDoc](https://godoc.org/github.com/qit-team/snow?status.svg)](https://godoc.org/github.com/qit-team/snow)
