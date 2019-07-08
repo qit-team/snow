@@ -17,7 +17,7 @@ Snow是一套简单易用的Go语言业务框架，整体逻辑设计简洁，�
 - Database: 使用成熟的[ORM](https://github.com/go-xorm/xorm)库，有丰富的数据库驱动支持和特性；
 - Queue: 通用的接口化设计，框架实现了redis、alimns作为队列底层驱动，支持可扩展；
 - Config: 采用[toml](https://github.com/toml-lang/toml)语义化的配置文件格式，简单易用；
-- Logger: 基于[logrus]github.com/sirupsen/logrus进行封装，内嵌上下文通用数据采集和trace_id追踪；
+- Logger: 基于[logrus](github.com/sirupsen/logrus)进行封装，内嵌上下文通用数据采集和trace_id追踪；
 - Request and Response：定义输入和输出数据实体格式；
 - Curl: 简单易用的Curl请求库；
 
