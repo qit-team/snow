@@ -1,0 +1,23 @@
+version: "2"
+
+services:
+   go.demo:
+     image: deathillidan/golang:latest
+     expose:
+       - 80
+     volumes:
+       - "../..:/go/src/github.com/qit-team/snow"
+     restart: always
+     security_opt:
+       #dlv debug时需要这个配置，docker默认安全设置禁止使用 ptrace(2)
+       - seccomp=unconfined
+     environment:
+       VIRTUAL_HOST: api-demo.qd-docker.com
+       GOPATH: "/go"
+     container_name: go.demo
+     entrypoint: "/go/src/github.com/qit-team/snow/build/docker/entrypoint.sh"
+
+networks:
+   default:
+     external:
+      name: nginx-proxy
