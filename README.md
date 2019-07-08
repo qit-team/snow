@@ -58,6 +58,7 @@ curl "http://127.0.0.1:8000/hello"  #返回json串输出
 - Tinson Ho ([@tinson](https://github.com/hetiansu5))
 - ACoderHIT
 - xiongwilee ([@xiongwilee](https://github.com/xiongwilee))
+- KEL ([@deathkel](https://github.com/deathkel))
 - peterwu
 
 
