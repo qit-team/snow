@@ -53,6 +53,13 @@ curl "http://127.0.0.1:8000/hello"  #返回json串输出
 - [中文文档](https://github.com/qit-team/snow/wiki)
 - [changelog](https://github.com/qit-team/snow/blob/master/CHANGLOG.md)
 
+## Contributors
+
+- Tinson Ho ([@tinson](https://github.com/hetiansu5))
+- ACoderHIT
+- xiongwilee ([@xiongwilee](https://github.com/xiongwilee))
+- peterwu
+
 
 
 
