@@ -10,7 +10,7 @@ Snow是一套简单易用的Go语言业务框架，整体逻辑设计简洁，�
 ## Features
 - HTTP服务：基于[gin](https://github.com/gin-gonic/gin)进行模块化设计，简单易用、核心足够轻量；支持平滑重启；
 - 任务调度：基于[cron](https://github.com/robfig/cron)进行模块化设计，简单易用；
-- 队列调度：基于自研的队列调度服务[worker]((https://github.com/qit-team/work)，通过Queue接口化，解耦队列调度与底层队列驱动；支持平滑关闭；
+- 队列调度：基于自研的队列调度服务[worker](https://github.com/qit-team/work)，通过Queue接口化，解耦队列调度与底层队列驱动；支持平滑关闭；
 - Cache: 通用的接口化设计，框架实现了redis作为缓存底层驱动，支持可扩展；
 - Database: 使用成熟的[ORM](https://github.com/go-xorm/xorm)库，有丰富的数据库驱动支持和特性；
 - Queue: 通用的接口化设计，框架实现了redis、alimns作为队列底层驱动，支持可扩展；
