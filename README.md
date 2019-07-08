@@ -48,7 +48,7 @@ curl "http://127.0.0.1:8000/hello"  #返回json串输出
 ## Documents
 
 - [中文文档](https://github.com/qit-team/snow/wiki)
-- [changelog](https://github.com/qit-team/snow/wiki/changelog)
+- [changelog](https://github.com/qit-team/snow/blob/master/CHANGLOG.md)
 
 
 
