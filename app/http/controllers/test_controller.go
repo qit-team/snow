@@ -22,7 +22,7 @@ func HandleHello(c *gin.Context) {
 //request和response的示例
 func HandleTest(c *gin.Context) {
 	request := new(entities.TestRequest)
-	err := genRequest(c, request)
+	err := GenRequest(c, request)
 	if err != nil {
 		Error(c, errorcode.ParamError)
 	}

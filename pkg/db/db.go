@@ -46,6 +46,12 @@ func newConn(driver string, base config.DbBaseConfig, option config.DbOptionConf
 		return
 	}
 
+	//env开关控制是否需要打印sql
+	showSqlConfig := config.GetConf().ShowSql
+	if showSqlConfig {
+		db.ShowSQL(true)
+	}
+
 	//设置表名和字段的映射规则：驼峰转下划线
 	db.SetMapper(core.SnakeMapper{})
 
