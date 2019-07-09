@@ -85,6 +85,8 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/qit-team/work v0.2.2 h1:Clfz8yZ9HMigGSFgHSea3NDiawt0nNeuFwa3po4zsBE=
 github.com/qit-team/work v0.2.2/go.mod h1:h5m1cZjn+BznChuAyMiR/+IUyWEmaMylPKRhq/AlxKw=
+github.com/qit-team/work v0.3.0 h1:1arX89gHs0G9knaPmi+75HzUTHUmqqWSYzI4DvV4zcA=
+github.com/qit-team/work v0.3.0/go.mod h1:h5m1cZjn+BznChuAyMiR/+IUyWEmaMylPKRhq/AlxKw=
 github.com/robfig/cron v1.2.0 h1:ZjScXvvxeQ63Dbyxy76Fj3AT3Ut0aKsyd2/tl3DTMuQ=
 github.com/robfig/cron v1.2.0/go.mod h1:JGuDeoQd7Z6yL4zQhZ3OPEVHB7fL6Ka6skscFHfmt2k=
 github.com/satori/go.uuid v1.2.0 h1:0uYX9dsZ2yD7q2RtLRtPSdGDWzjeM3TbMJP9utgA0ww=
