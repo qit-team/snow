@@ -35,6 +35,7 @@ cd my-github/my-space
 git clone git@github.com/qit-team/snow.git my-project
 cd my-project
 sh build/shell/replace.sh my-github/my-space/my-project
+cp .env.example .env
 ```
 
 ### Build & Run
