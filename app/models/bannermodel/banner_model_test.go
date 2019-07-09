@@ -22,7 +22,7 @@ func init() {
 	}
 
 	//注册db
-	err = (&db.DbServiceProvider{}).Register(conf)
+	err = (&db.Provider{}).Register(conf)
 	if err != nil {
 		fmt.Println(err)
 	}

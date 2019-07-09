@@ -5,8 +5,12 @@ import (
 	"errors"
 )
 
+var (
+	ErrNotFound = errors.New("cannot find internal ip")
+)
+
 //内网IP
-func GetInternalIp()(string, error){
+func GetInternalIp() (string, error) {
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
 		return "", err
@@ -22,6 +26,5 @@ func GetInternalIp()(string, error){
 		}
 	}
 
-	return "", errors.New("cannot find internal ip")
+	return "", ErrNotFound
 }
-

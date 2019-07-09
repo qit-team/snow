@@ -48,7 +48,3 @@ func GetLogger(args ...string) *logrus.Logger {
 	}
 	return nil
 }
-
-func Close() error {
-	return (&Provider{}).Close()
-}

@@ -41,7 +41,3 @@ func GetAccessLogger(args ...string) *accesslog.AccessLogger {
 	}
 	return nil
 }
-
-func Close() error {
-	return (&Provider{}).Close()
-}

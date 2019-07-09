@@ -32,7 +32,7 @@ Go version>=1.12
 ```shell
 cd $GOPATH/src
 cd my-github/my-space
-git clone git@github.com/qit-team/snow.git my-project
+git clone git@github.com:qit-team/snow.git my-project
 cd my-project
 sh build/shell/replace.sh my-github/my-space/my-project
 cp .env.example .env
@@ -51,6 +51,7 @@ curl "http://127.0.0.1:8000/hello"  #返回json串输出
 
 ## Documents
 
+- [项目地址](https://github.com/qit-team/snow)
 - [中文文档](https://github.com/qit-team/snow/wiki)
 - [changelog](https://github.com/qit-team/snow/blob/master/CHANGLOG.md)
 
