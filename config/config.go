@@ -83,7 +83,6 @@ type Config struct {
 	Redis      RedisConfig `toml:"Redis"`
 	Mns        MnsConfig   `toml:"AliMns"`
 	Db         DbConfig    `toml:"Db"`
-	ShowSql    bool        `toml:"ShowSql"`
 
 	Api struct {
 		Host string
