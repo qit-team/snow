@@ -113,6 +113,9 @@ func HandleUserCmd(cmd string, pidFile string) error {
 	if err != nil {
 		return err
 	}
+
+	fmt.Printf("send %v to pid %d \n", sig, pid)
+
 	proc := new(os.Process)
 	proc.Pid = pid
 	return proc.Signal(sig)
