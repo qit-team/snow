@@ -54,7 +54,7 @@ func Error500(c *gin.Context) {
  * @param c
  * @param request  传入request数据结构的指针 如 new(TestRequest)
  */
-func genRequest(c *gin.Context, request interface{}) (err error) {
+func GenRequest(c *gin.Context, request interface{}) (err error) {
 	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		return

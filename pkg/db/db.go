@@ -45,7 +45,7 @@ func newConn(driver string, base config.DbBaseConfig, option config.DbOptionConf
 	if err != nil {
 		return
 	}
-
+	
 	//设置表名和字段的映射规则：驼峰转下划线
 	db.SetMapper(core.SnakeMapper{})
 
