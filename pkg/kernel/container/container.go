@@ -126,23 +126,23 @@ func (p *Container) String() string {
 	lines = append(lines, "singletons:")
 	for name, item := range p.singletons {
 		if item == nil {
-			line := fmt.Sprintf("  %s: %v %s", name, "<nil>", "<nil>")
+			line := fmt.Sprintf("  %s: %s %s", name, "<nil>", "<nil>")
 			lines = append(lines, line)
 			continue
 		}
 
-		line := fmt.Sprintf("  %s: %v %s", name, &item, reflect.TypeOf(item).String())
+		line := fmt.Sprintf("  %s: %p %s", name, &item, reflect.TypeOf(item).String())
 		lines = append(lines, line)
 	}
 	lines = append(lines, "factories:")
 	for name, item := range p.factories {
 		if item == nil {
-			line := fmt.Sprintf("  %s: %v %s", name, "<nil>", "<nil>")
+			line := fmt.Sprintf("  %s: %s %s", name, "<nil>", "<nil>")
 			lines = append(lines, line)
 			continue
 		}
 
-		line := fmt.Sprintf("  %s: %v %s", name, &item, reflect.TypeOf(item).String())
+		line := fmt.Sprintf("  %s: %p %s", name, &item, reflect.TypeOf(item).String())
 		lines = append(lines, line)
 	}
 	return strings.Join(lines, "\n")
