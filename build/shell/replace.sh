@@ -17,3 +17,5 @@ if [ "$system" == "Darwin" ]; then
 else
     find . -type f -name "*.*" ! -path "./vendor/*" ! -path "./logs/*" ! -path "./docs/*"  ! -path "./.git/*" ! -path "./build/shell/replace.sh" | xargs sed -i "s|${default}|${target}|g"
 fi
+
+echo "replace package namespace success"
