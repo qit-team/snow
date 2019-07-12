@@ -7,7 +7,13 @@ if [ "$target" == "" ]; then
 fi
 
 #回到根目录
-rootPath=$(cd `dirname $0`/../../; pwd)
+cd `dirname $0`/../../
+
+system=`uname`
 
 #替换
-find . -type f -name "*.*" ! -path "./vendor/*" ! -path "./logs/*" ! -path "./docs/*"  ! -path "./.git/*" ! -path "./build/shell/replace.sh" | xargs sed -i "" "s|${default}|${target}|"
+if [ "$system" == "Darwin" ]; then
+    find . -type f -name "*.*" ! -path "./vendor/*" ! -path "./logs/*" ! -path "./docs/*"  ! -path "./.git/*" ! -path "./build/shell/replace.sh" | xargs sed -i "" "s|${default}|${target}|"
+else
+    find . -type f -name "*.*" ! -path "./vendor/*" ! -path "./logs/*" ! -path "./docs/*"  ! -path "./.git/*" ! -path "./build/shell/replace.sh" | xargs sed "s|${default}|${target}|g"
+fi
