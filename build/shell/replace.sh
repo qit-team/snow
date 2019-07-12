@@ -10,4 +10,4 @@ fi
 rootPath=$(cd `dirname $0`/../../; pwd)
 
 #替换
-find . -type f -name "*.*" ! -path "./vendor/*" ! -path "./logs/*" ! -path "./docs/*"  ! -path "./.git/*" ! -path "./build/shell/replace.sh" | xargs sed -i "" "s|${default}|${target}|"
+find . -type f -name "*.*" ! -path "./vendor/*" ! -path "./logs/*" ! -path "./docs/*"  ! -path "./.git/*" ! -path "./build/shell/replace.sh" | xargs sed -i "s|${default}|${target}|g"
