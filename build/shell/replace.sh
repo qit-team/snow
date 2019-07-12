@@ -15,5 +15,5 @@ system=`uname`
 if [ "$system" == "Darwin" ]; then
     find . -type f -name "*.*" ! -path "./vendor/*" ! -path "./logs/*" ! -path "./docs/*"  ! -path "./.git/*" ! -path "./build/shell/replace.sh" | xargs sed -i "" "s|${default}|${target}|"
 else
-    find . -type f -name "*.*" ! -path "./vendor/*" ! -path "./logs/*" ! -path "./docs/*"  ! -path "./.git/*" ! -path "./build/shell/replace.sh" | xargs sed "s|${default}|${target}|g"
+    find . -type f -name "*.*" ! -path "./vendor/*" ! -path "./logs/*" ! -path "./docs/*"  ! -path "./.git/*" ! -path "./build/shell/replace.sh" | xargs sed -i "s|${default}|${target}|g"
 fi
