@@ -22,7 +22,6 @@ func main() {
 	}
 
 	pidFile := genPidFile(opts)
-	isHttp, isCron, isJob := judgeAppType(opts.App)
 
 	//执行(status|stop|restart)命令
 	if opts.Cmd != "" {
@@ -37,13 +36,14 @@ func main() {
 
 	//根据启动命令行参数，决定启动哪种服务模式
 	var err error
-	if isHttp {
+	switch opts.App {
+	case "api":
 		err = server.StartHttp(opts.ConfFile, pidFile, bootstrap.Bootstrap, routes.RegisterRoute)
-	} else if isCron {
+	case "cron":
 		err = server.StartConsole(opts.ConfFile, pidFile, bootstrap.Bootstrap, console.RegisterSchedule)
-	} else if isJob {
+	case "job":
 		err = server.StartJob(opts.ConfFile, pidFile, bootstrap.Bootstrap, jobs.RegisterWorker)
-	} else {
+	default:
 		err = errors.New("No server start")
 	}
 
@@ -56,17 +56,4 @@ func main() {
 //pid进程号的保存路径
 func genPidFile(opts *config.Options) string {
 	return strings.TrimRight(opts.PidPath, "/") + "/" + opts.App + ".pid"
-}
-
-//判断启动的服务类型
-func judgeAppType(appType string) (isHttp bool, isCron bool, isJob bool) {
-	switch appType {
-	case "api":
-		isHttp = true
-	case "cron":
-		isCron = true
-	case "job":
-		isJob = true
-	}
-	return
 }

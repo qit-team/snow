@@ -22,7 +22,9 @@ func runEngine(engine *gin.Engine, addr string, pidPath string) error {
 	server := endless.NewServer(addr, engine)
 	server.BeforeBegin = func(add string) {
 		pid := syscall.Getpid()
-		fmt.Printf("Actual pid is %d \n\r", pid)
+		if gin.Mode() != gin.ReleaseMode {
+			fmt.Printf("Actual pid is %d \n\r", pid)
+		}
 		writePidFile(pidPath, pid)
 	}
 	err := server.ListenAndServe()
@@ -55,6 +57,7 @@ func StartHttp(confFile, pidFile string, boot func(config *config.Config) error,
 	addr := conf.Api.Host + ":" + strconv.Itoa(conf.Api.Port)
 	runEngine(engine, addr, pidFile)
 
+	//因为信号处理由endless接管实现平滑重启和关闭，这里模拟通用的结束信号
 	go func() {
 		srv.stop <- true
 	}()
