@@ -125,7 +125,7 @@ func (p *Container) String() string {
 	lines := make([]string, 0, len(p.singletons)+len(p.factories)+2)
 	lines = append(lines, "singletons:")
 	for name, item := range p.singletons {
-		if item ==nil {
+		if item == nil {
 			line := fmt.Sprintf("  %s: %v %s", name, "<nil>", "<nil>")
 			lines = append(lines, line)
 			continue
@@ -136,7 +136,7 @@ func (p *Container) String() string {
 	}
 	lines = append(lines, "factories:")
 	for name, item := range p.factories {
-		if item ==nil {
+		if item == nil {
 			line := fmt.Sprintf("  %s: %v %s", name, "<nil>", "<nil>")
 			lines = append(lines, line)
 			continue
