@@ -122,16 +122,28 @@ func (p *Container) isPrototype(tag string) bool {
 
 // 打印容器内部实例
 func (p *Container) String() string {
-    lines := make([]string, 0, len(p.singletons)+len(p.factories)+2)
-    lines = append(lines, "singletons:")
-    for name, item := range p.singletons {
-        line := fmt.Sprintf("  %s: %x %s", name, &item, reflect.TypeOf(item).String())
-        lines = append(lines, line)
-    }
-    lines = append(lines, "factories:")
-    for name, item := range p.factories {
-        line := fmt.Sprintf("  %s: %x %s", name, &item, reflect.TypeOf(item).String())
-        lines = append(lines, line)
-    }
-    return strings.Join(lines, "\n")
+	lines := make([]string, 0, len(p.singletons)+len(p.factories)+2)
+	lines = append(lines, "singletons:")
+	for name, item := range p.singletons {
+		if item == nil {
+			line := fmt.Sprintf("  %s: %s %s", name, "<nil>", "<nil>")
+			lines = append(lines, line)
+			continue
+		}
+
+		line := fmt.Sprintf("  %s: %p %s", name, &item, reflect.TypeOf(item).String())
+		lines = append(lines, line)
+	}
+	lines = append(lines, "factories:")
+	for name, item := range p.factories {
+		if item == nil {
+			line := fmt.Sprintf("  %s: %s %s", name, "<nil>", "<nil>")
+			lines = append(lines, line)
+			continue
+		}
+
+		line := fmt.Sprintf("  %s: %p %s", name, &item, reflect.TypeOf(item).String())
+		lines = append(lines, line)
+	}
+	return strings.Join(lines, "\n")
 }
