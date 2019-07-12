@@ -22,7 +22,7 @@ func runEngine(engine *gin.Engine, addr string, pidPath string) error {
 	server := endless.NewServer(addr, engine)
 	server.BeforeBegin = func(add string) {
 		pid := syscall.Getpid()
-		fmt.Println("Actual pid is %d", pid)
+		fmt.Printf("Actual pid is %d \n\r", pid)
 		writePidFile(pidPath, pid)
 	}
 	err := server.ListenAndServe()
