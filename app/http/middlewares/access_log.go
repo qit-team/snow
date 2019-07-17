@@ -8,6 +8,9 @@ import (
 
 func AccessLog() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ginacl.AccessLogFunc(accesslogger.GetAccessLogger())(c)
+		//忽略HEAD探针的日志
+		if c.Request.Method != "HEAD" {
+			ginacl.AccessLogFunc(accesslogger.GetAccessLogger())(c)
+		}
 	}
 }

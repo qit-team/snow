@@ -12,7 +12,7 @@ import (
 	"github.com/qit-team/snow/pkg/log/logger"
 )
 
-//测试缓存服务
+//hello示例
 func HandleHello(c *gin.Context) {
 	logger.Debug(c, "hello", "test message")
 	Success(c, "hello world!")
@@ -25,6 +25,7 @@ func HandleTest(c *gin.Context) {
 	err := GenRequest(c, request)
 	if err != nil {
 		Error(c, errorcode.ParamError)
+		return
 	}
 
 	response := new(entities.TestResponse)
@@ -35,7 +36,7 @@ func HandleTest(c *gin.Context) {
 	return
 }
 
-//测试缓存服务
+//测试缓存服务示例
 func HandleCache(c *gin.Context) {
 	data := make(map[string]interface{})
 	cache := bannerlistcache.GetCache()
@@ -48,7 +49,7 @@ func HandleCache(c *gin.Context) {
 	return
 }
 
-//测试数据库服务
+//测试数据库服务示例
 func GetBannerList(c *gin.Context) {
 	page := c.GetInt("page")
 	limit := c.GetInt("limit")
