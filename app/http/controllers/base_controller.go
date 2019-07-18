@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"encoding/json"
 	"io/ioutil"
+	"bytes"
 )
 
 /**
@@ -55,9 +56,19 @@ func Error500(c *gin.Context) {
  * @param request  传入request数据结构的指针 如 new(TestRequest)
  */
 func GenRequest(c *gin.Context, request interface{}) (err error) {
-	body, err := ioutil.ReadAll(c.Request.Body)
+	body, err := ReadBody(c)
 	if err != nil {
 		return
 	}
 	return json.Unmarshal(body, request)
+}
+
+//重复读取body
+func ReadBody(c *gin.Context) (body []byte, err error) {
+	body, err = ioutil.ReadAll(c.Request.Body)
+	if err != nil {
+		return
+	}
+	c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body))
+	return
 }
