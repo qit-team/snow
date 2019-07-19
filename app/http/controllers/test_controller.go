@@ -10,6 +10,7 @@ import (
 	"github.com/qit-team/snow/app/constants/errorcode"
 	"time"
 	"github.com/qit-team/snow/pkg/log/logger"
+	"strconv"
 )
 
 //hello示例
@@ -51,11 +52,20 @@ func HandleCache(c *gin.Context) {
 
 //测试数据库服务示例
 func GetBannerList(c *gin.Context) {
-	page := c.GetInt("page")
-	limit := c.GetInt("limit")
-	pid := 1
+	pageStr := c.Query("page")
+	limitStr := c.DefaultQuery("limit", "20")
 
-	list, err := bannerservice.GetListByPid(pid, limit, page)
+	page, _ := strconv.Atoi(pageStr)
+	if page <= 0 {
+		page = 1
+	}
+
+	limit, _ := strconv.Atoi(limitStr)
+	if limit <= 0 {
+		limit = 20
+	}
+
+	list, err := bannerservice.GetListByPid(1, limit, page)
 	if err != nil {
 		fmt.Println(err)
 		Error500(c)
