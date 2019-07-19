@@ -51,6 +51,6 @@ func GetInstance() *bannerModel {
 
 func (m *bannerModel) GetListByPid(pid int, limits ...int) (banners []*Banner, err error) {
 	banners = make([]*Banner, 0)
-	err = m.GetList(&banners, "pid = ?", []interface{}{pid}, limits...)
+	err = m.GetList(&banners, "pid = ?", []interface{}{pid}, limits)
 	return
 }

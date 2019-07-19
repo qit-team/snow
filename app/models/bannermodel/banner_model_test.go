@@ -45,7 +45,7 @@ func TestGetOne(t *testing.T) {
 func TestGetList(t *testing.T) {
 	bannerModel := GetInstance()
 	banners := make([]*Banner, 0)
-	err := bannerModel.GetList(&banners, "pid = ?", []interface{}{1}, 20, 0)
+	err := bannerModel.GetList(&banners, "pid >= ?", []interface{}{1}, []int{10}, "status desc, id desc")
 	if err != nil {
 		t.Error(err)
 	}

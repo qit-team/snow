@@ -14,7 +14,7 @@ var (
  * 基础model
  */
 type Model struct {
-	DiName string      //依赖注入的别名
+	DiName string //依赖注入的别名
 }
 
 /**
@@ -99,16 +99,33 @@ func (m *Model) DeleteMulti(ids []interface{}, bean interface{}) (int64, error) 
 
 /**
  * 查询多个主键ID的记录
- * @param beans 数据结构实体分片
+ * @param beans 数据结构实体分片 eg. &banners 其中 banners := make([]*Banner, 0)
  * @params sql  eg. "age > ? or name = ?"
  * @params values eg. []interfaces{}{30, "hts"}
- * @Param limits 可选 eg. []int{30} []int{30, 20}
+ * @Param []int limit 可选 eg. []int{} 不限量 []int{30} 前30个 []int{30, 20} 从第20个后的前30个
+ * @param string order 可选 eg.  "id desc" 单个 "uid desc,status asc" 多个
  */
-func (m *Model) GetList(beans interface{}, sql string, values []interface{}, limits ...int) (err error) {
-	if len(limits) > 0 {
-		limit := limits[0]
-		start := limits[1:]
-		return m.GetDb().Where(sql, values...).Limit(limit, start...).Find(beans)
+func (m *Model) GetList(beans interface{}, sql string, values []interface{}, args ...interface{}) (err error) {
+	if len(args) > 0 {
+		var (
+			order string
+			limit int
+			start int
+		)
+
+		limits, ok := args[0].([]int)
+		if ok && len(limits) > 0 {
+			limit = limits[0]
+			if len(limits) > 1 {
+				start = limits[1]
+			}
+		}
+
+		if len(args) > 1 {
+			order, _ = args[1].(string)
+		}
+
+		return m.GetDb().Where(sql, values...).OrderBy(order).Limit(limit, start).Find(beans)
 	} else {
 		return m.GetDb().Where(sql, values...).Find(beans)
 	}
