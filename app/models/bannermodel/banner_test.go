@@ -2,27 +2,27 @@ package bannermodel
 
 import (
 	"fmt"
-	"github.com/qit-team/snow/config"
 	"testing"
-	"github.com/qit-team/snow/pkg/db"
+	"github.com/qit-team/snow-core/config"
+	"github.com/qit-team/snow-core/db"
 	"github.com/qit-team/snow-core/utils"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func init() {
-	defer func() {
-		if r := recover(); r != nil {
-			println("Runtime error caught: %v", r)
-		}
-	}()
-
-	//加载配置文件
-	conf, err := config.Load("../../../.env")
-	if err != nil {
-		fmt.Println(err)
+	m := config.DbBaseConfig{
+		Host:     "127.0.0.1",
+		Port:     3306,
+		User:     "root",
+		Password: "123456",
+		DBName:   "test",
+	}
+	dbConf := config.DbConfig{
+		Driver: "mysql",
+		Master: m,
 	}
 
-	//注册db
-	err = (&db.Provider{}).Register(conf)
+	err := db.Pr.Register("db", dbConf, true)
 	if err != nil {
 		fmt.Println(err)
 	}

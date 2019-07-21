@@ -4,10 +4,10 @@ import (
 	"github.com/qit-team/work"
 	"github.com/qit-team/snow-core/queue"
 	"github.com/qit-team/snow-core/log/logger"
+	"github.com/qit-team/snow-core/redis"
 	"github.com/qit-team/snow/config"
 	"strings"
 	"context"
-	"github.com/qit-team/snow-core/redis"
 )
 
 var (
