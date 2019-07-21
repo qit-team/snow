@@ -8,7 +8,6 @@ import (
 	"github.com/qit-team/snow-core/kernel/close"
 	"github.com/qit-team/snow-core/log/accesslogger"
 	"github.com/qit-team/snow-core/log/logger"
-	"github.com/qit-team/snow-core/alimns"
 )
 
 //全局变量
@@ -35,10 +34,10 @@ func Bootstrap(conf *config.Config) (err error) {
 	}
 
 	//注册mns服务
-	err = alimns.Pr.Register(alimns.SingletonMain, conf.Mns, true)
-	if err != nil {
-		return
-	}
+	//err = alimns.Pr.Register(alimns.SingletonMain, conf.Mns, true)
+	//if err != nil {
+	//	return
+	//}
 
 	//注册日志类服务
 	err = logger.Pr.Register(logger.SingletonMain, conf.Log, true)
@@ -53,6 +52,6 @@ func Bootstrap(conf *config.Config) (err error) {
 	}
 
 	//注册应用停止时调用的关闭服务
-	close.MultiRegister(db.Pr, redis.Pr, alimns.Pr)
+	close.MultiRegister(db.Pr, redis.Pr)
 	return nil
 }
