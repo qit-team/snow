@@ -1,7 +1,7 @@
 package bannermodel
 
 import (
-	"github.com/qit-team/snow/app/models"
+	"github.com/qit-team/snow-core/db"
 	"sync"
 	"time"
 )
@@ -37,7 +37,7 @@ func (m *Banner) TableName() string {
  * 私有化，防止被外部new
  */
 type bannerModel struct {
-	models.Model //组合基础Model，集成基础Model的属性和方法
+	db.Model //组合基础Model，集成基础Model的属性和方法
 }
 
 //单例模式

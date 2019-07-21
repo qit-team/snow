@@ -3,13 +3,12 @@ package main
 import (
 	"fmt"
 	"github.com/qit-team/snow/config"
-	"github.com/qit-team/snow/pkg/kernel/server"
+	"github.com/qit-team/snow-core/kernel/server"
 	"os"
 	"github.com/qit-team/snow/bootstrap"
+	"errors"
 	"github.com/qit-team/snow/app/http/routes"
 	"github.com/qit-team/snow/app/console"
-	"errors"
-	"strings"
 	"github.com/qit-team/snow/app/jobs"
 )
 
@@ -21,10 +20,19 @@ func main() {
 		os.Exit(0)
 	}
 
-	pidFile := genPidFile(opts)
+	handleCmd(opts)
 
-	//执行(status|stop|restart)命令
+	err := startServer(opts)
+	if err != nil {
+		fmt.Printf("server start error, %s\n", err)
+		os.Exit(1)
+	}
+}
+
+//执行(status|stop|restart)命令
+func handleCmd(opts *config.Options) {
 	if opts.Cmd != "" {
+		pidFile := config.GenPidFile(opts)
 		err := server.HandleUserCmd(opts.Cmd, pidFile)
 		if err != nil {
 			fmt.Printf("Handle user command(%s) error, %s\n", opts.Cmd, err)
@@ -33,27 +41,33 @@ func main() {
 		}
 		os.Exit(0)
 	}
-
-	//根据启动命令行参数，决定启动哪种服务模式
-	var err error
-	switch opts.App {
-	case "api":
-		err = server.StartHttp(opts.ConfFile, pidFile, bootstrap.Bootstrap, routes.RegisterRoute)
-	case "cron":
-		err = server.StartConsole(opts.ConfFile, pidFile, bootstrap.Bootstrap, console.RegisterSchedule)
-	case "job":
-		err = server.StartJob(opts.ConfFile, pidFile, bootstrap.Bootstrap, jobs.RegisterWorker)
-	default:
-		err = errors.New("No server start")
-	}
-
-	if err != nil {
-		fmt.Printf("Server start error, %s\n", err)
-		os.Exit(1)
-	}
 }
 
-//pid进程号的保存路径
-func genPidFile(opts *config.Options) string {
-	return strings.TrimRight(opts.PidPath, "/") + "/" + opts.App + ".pid"
+func startServer(opts *config.Options) (err error) {
+	//加载配置
+	conf, err := config.Load(opts.ConfFile)
+	if err != nil {
+		return
+	}
+
+	//引导程序
+	err = bootstrap.Bootstrap(conf)
+	if err != nil {
+		return
+	}
+
+	pidFile := config.GenPidFile(opts)
+
+	//根据启动命令行参数，决定启动哪种服务模式
+	switch opts.App {
+	case "api":
+		err = server.StartHttp(pidFile, conf.Api, routes.RegisterRoute)
+	case "cron":
+		err = server.StartConsole(pidFile, console.RegisterSchedule)
+	case "job":
+		err = server.StartJob(pidFile, jobs.RegisterWorker)
+	default:
+		err = errors.New("no server start")
+	}
+	return
 }

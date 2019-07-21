@@ -5,7 +5,7 @@ import (
 	"github.com/qit-team/snow/config"
 	"testing"
 	"github.com/qit-team/snow/pkg/db"
-	"github.com/qit-team/snow/app/utils"
+	"github.com/qit-team/snow-core/utils"
 )
 
 func init() {

@@ -1,15 +1,13 @@
 package controllers
 
 import (
-	"github.com/qit-team/snow/app/caches/bannerlistcache"
 	"github.com/gin-gonic/gin"
 	"github.com/qit-team/snow/app/http/formatters/bannerformatter"
 	"github.com/qit-team/snow/app/services/bannerservice"
-	"fmt"
 	"github.com/qit-team/snow/app/http/entities"
 	"github.com/qit-team/snow/app/constants/errorcode"
 	"time"
-	"github.com/qit-team/snow/pkg/log/logger"
+	"github.com/qit-team/snow-core/log/logger"
 	"strconv"
 )
 
@@ -37,19 +35,6 @@ func HandleTest(c *gin.Context) {
 	return
 }
 
-//测试缓存服务示例
-func HandleCache(c *gin.Context) {
-	data := make(map[string]interface{})
-	cache := bannerlistcache.GetCache()
-	key := "m:test"
-	cache.Set(c, key, "2222", 10)
-	v, _ := cache.Get(c, key)
-	data["cache"] = v.(string)
-
-	Success(c, data)
-	return
-}
-
 //测试数据库服务示例
 func GetBannerList(c *gin.Context) {
 	pageStr := c.Query("page")
@@ -67,7 +52,6 @@ func GetBannerList(c *gin.Context) {
 
 	list, err := bannerservice.GetListByPid(1, limit, page)
 	if err != nil {
-		fmt.Println(err)
 		Error500(c)
 		return
 	}

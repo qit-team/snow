@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/qit-team/snow/app/constants/logtype"
 	"github.com/qit-team/snow/config"
-	"github.com/qit-team/snow/pkg/log/logger"
+	"github.com/qit-team/snow-core/log/logger"
 	"github.com/gin-gonic/gin"
 	syslog "log"
 	"net/http/httputil"

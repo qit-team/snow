@@ -1,6 +1,6 @@
 ## Version 1.0.0 (2019-07-08)
 
-新特性:
+### New Features
  - 支持多模式：HTTP(平滑重启)、队列调度(平滑结束)、任务调度
  - 常用组件支持:
     - Database：MySQL、Postgres、Sqlite3、SQL Server、TiDB...

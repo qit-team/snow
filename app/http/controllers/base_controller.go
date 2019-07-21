@@ -72,3 +72,16 @@ func ReadBody(c *gin.Context) (body []byte, err error) {
 	c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body))
 	return
 }
+
+//所有form表单的请求数据
+func GetFormData(c *gin.Context) map[string]interface{} {
+	if c.Request.Form == nil {
+		c.Request.ParseMultipartForm(32 << 20)
+	}
+
+	data := make(map[string]interface{})
+	for k, v := range c.Request.Form {
+		data[k] = v[0]
+	}
+	return data
+}

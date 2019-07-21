@@ -1,5 +1,5 @@
 package common
 
 const (
-	HeaderTraceId   = "X-Trace-Id"
+	HeaderTraceId = "X-Trace-Id"
 )

@@ -2,12 +2,12 @@ package jobs
 
 import (
 	"github.com/qit-team/work"
-	"github.com/qit-team/snow/pkg/queue"
-	"github.com/qit-team/snow/pkg/log/logger"
+	"github.com/qit-team/snow-core/queue"
+	"github.com/qit-team/snow-core/log/logger"
 	"github.com/qit-team/snow/config"
 	"strings"
 	"context"
-	"github.com/qit-team/snow/pkg/redis"
+	"github.com/qit-team/snow-core/redis"
 )
 
 var (
@@ -36,10 +36,7 @@ func RegisterWorker(job *work.Job) {
  */
 func RegisterQueueDriver(job *work.Job) {
 	//设置队列服务，需要实现work.Queue接口的方法
-	q, err := queue.GetInstance(redis.SingletonMain, queue.DriverTypeRedis)
-	if err != nil {
-		panic("queue service init error:" + err.Error())
-	}
+	q := queue.GetQueue(redis.SingletonMain, queue.DriverTypeRedis)
 	//针对topic设置相关的queue
 	job.AddQueue(q, "topic-test1", "topic-test2")
 	//设置默认的queue, 没有设置过的topic会使用默认的queue

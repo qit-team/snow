@@ -1,8 +1,10 @@
 package bannerservice
 
-import "github.com/qit-team/snow/app/models/bannermodel"
+import (
+	"github.com/qit-team/snow/app/models/bannermodel"
+)
 
-func GetListByPid(pid int, limit int, page int) (banners []*bannermodel.Banner, err error){
+func GetListByPid(pid int, limit int, page int) (banners []*bannermodel.Banner, err error) {
 	limitStart := GetLimitStart(limit, page)
 	banners, err = bannermodel.GetInstance().GetListByPid(pid, limitStart...)
 	return

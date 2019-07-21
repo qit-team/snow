@@ -1,6 +1,9 @@
 package config
 
-import "flag"
+import (
+	"flag"
+	"strings"
+)
 
 var options *Options
 
@@ -32,4 +35,9 @@ func GetOptions() *Options {
 		options = parseOptions()
 	}
 	return options
+}
+
+//pid进程号的保存路径
+func GenPidFile(opts *Options) string {
+	return strings.TrimRight(opts.PidPath, "/") + "/" + opts.App + ".pid"
 }

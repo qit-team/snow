@@ -2,58 +2,57 @@ package bootstrap
 
 import (
 	"github.com/qit-team/snow/config"
-	"github.com/qit-team/snow/pkg/redis"
-	"github.com/qit-team/snow/pkg/db"
-	"github.com/qit-team/snow/pkg/kernel/container"
-	"github.com/qit-team/snow/pkg/kernel/close"
-	"github.com/qit-team/snow/pkg/log/accesslogger"
-	"github.com/qit-team/snow/pkg/log/logger"
-	"github.com/qit-team/snow/pkg/kernel/provider"
-	"github.com/qit-team/snow/pkg/alimns"
+	"github.com/qit-team/snow-core/redis"
+	"github.com/qit-team/snow-core/db"
+	"github.com/qit-team/snow-core/kernel/container"
+	"github.com/qit-team/snow-core/kernel/close"
+	"github.com/qit-team/snow-core/log/accesslogger"
+	"github.com/qit-team/snow-core/log/logger"
+	"github.com/qit-team/snow-core/alimns"
 )
 
 //全局变量
 var App *container.Container
 
 /**
- * 服务启动，进行容器注入
- * server包依赖于此函数
+ * 服务引导程序
 */
 func Bootstrap(conf *config.Config) (err error) {
 	//容器
 	App = container.App
 
-	//db服务
-	dbProvider := &db.Provider{}
-	//redis服务
-	redisProvider := &redis.Provider{}
+	//注册db服务
+	//第一个参数为注入别名，第二个参数为配置，第三个参数可选为是否懒加载
+	err = db.Pr.Register(db.SingletonMain, conf.Db)
+	if err != nil {
+		return
+	}
 
-	//mns服务
-	alimnsProvider := &alimns.Provider{}
+	//注册redis服务
+	err = redis.Pr.Register(redis.SingletonMain, conf.Redis)
+	if err != nil {
+		return
+	}
 
-	//日志类服务
-	loggerProvider := &logger.Provider{}
+	//注册mns服务
+	err = alimns.Pr.Register(alimns.SingletonMain, conf.Mns, true)
+	if err != nil {
+		return
+	}
 
-	//access log服务
-	accessLoggerProvider := &accesslogger.Provider{}
+	//注册日志类服务
+	err = logger.Pr.Register(logger.SingletonMain, conf.Log, true)
+	if err != nil {
+		return
+	}
 
-	err = RegisterProviders(conf, dbProvider, redisProvider, loggerProvider, accessLoggerProvider, alimnsProvider)
+	//注册access log服务
+	err = accesslogger.Pr.Register(accesslogger.SingletonMain, conf.Log)
 	if err != nil {
 		return
 	}
 
 	//注册应用停止时调用的关闭服务
-	close.MultiRegister(dbProvider, redisProvider)
-	return nil
-}
-
-//批量注册
-func RegisterProviders(conf *config.Config, providers ...provider.Provider) error {
-	for _, p := range providers {
-		err := p.Register(conf)
-		if err != nil {
-			return err
-		}
-	}
+	close.MultiRegister(db.Pr, redis.Pr, alimns.Pr)
 	return nil
 }

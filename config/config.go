@@ -3,7 +3,7 @@ package config
 import (
 	"github.com/BurntSushi/toml"
 	"os"
-	"time"
+	"github.com/qit-team/snow-core/config"
 )
 
 const (
@@ -16,78 +16,14 @@ const (
 var srvConf *Config
 
 //------------------------配置文件解析
-
-type CacheConfig struct {
-	Driver string //驱动类型，目前支持redis
-}
-
-type RedisBaseConfig struct {
-	Host     string
-	Port     int
-	Password string
-	DB       int //第几个库，默认0
-}
-
-type RedisOptionConfig struct {
-	MaxIdle        int
-	MaxConns       int
-	Wait           bool
-	IdleTimeout    time.Duration
-	ConnectTimeout time.Duration
-	ReadTimeout    time.Duration
-	WriteTimeout   time.Duration
-}
-
-type RedisConfig struct {
-	Master RedisBaseConfig
-	Slaves []RedisBaseConfig
-	Option RedisOptionConfig
-}
-
-type DbBaseConfig struct {
-	Host     string
-	Port     int
-	User     string
-	Password string
-	DBName   string
-}
-
-type DbOptionConfig struct {
-	MaxIdle        int
-	MaxConns       int
-	IdleTimeout    time.Duration
-	ConnectTimeout time.Duration
-	Charset        string
-}
-
-type DbConfig struct {
-	Driver string //驱动类型，目前支持mysql、postgres、mssql、sqlite3
-	Master DbBaseConfig
-	Slaves []DbBaseConfig
-	Option DbOptionConfig
-}
-
-type MnsConfig struct {
-	Url             string
-	AccessKeyId     string
-	AccessKeySecret string
-}
-
 type Config struct {
-	Debug      bool        `toml:"Debug"`
-	LogHandler string      `toml:"LogHandler"`
-	LogDir     string      `toml:"LogDir"`
-	LogLevel   string      `toml:"LogLevel"`
-	Env        string      `toml:"Env"`
-	Cache      CacheConfig `toml:"cache"`
-	Redis      RedisConfig `toml:"Redis"`
-	Mns        MnsConfig   `toml:"AliMns"`
-	Db         DbConfig    `toml:"Db"`
-
-	Api struct {
-		Host string
-		Port int
-	} `toml:"Api"`
+	Env   string             `toml:"Env"`
+	Debug bool               `toml:"Debug"`
+	Log   config.LogConfig   `toml:"Log"`
+	Redis config.RedisConfig `toml:"Redis"`
+	Mns   config.MnsConfig   `toml:"AliMns"`
+	Db    config.DbConfig    `toml:"Db"`
+	Api   config.ApiConfig   `toml:"Api"`
 }
 
 func newConfig() *Config {

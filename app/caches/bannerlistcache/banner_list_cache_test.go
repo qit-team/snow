@@ -4,8 +4,10 @@ import (
 	"context"
 	"fmt"
 	"github.com/qit-team/snow/config"
-	"github.com/qit-team/snow/pkg/redis"
+	"github.com/qit-team/snow-core/redis"
 	"testing"
+	_ "github.com/qit-team/snow-core/cache/rediscache"
+	"github.com/qit-team/snow-core/cache"
 )
 
 func init() {
@@ -16,7 +18,7 @@ func init() {
 	}
 
 	//注册redis类
-	err = (&redis.Provider{}).Register(conf)
+	err = redis.Pr.Register(cache.DefaultDiName, conf.Redis)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -24,8 +26,8 @@ func init() {
 
 func Test_GetMulti(t *testing.T) {
 	ctx := context.TODO()
-	cache := GetCache()
-	res, _ := cache.Set(ctx, "1000", "a", cache.TTL)
+	cache := GetInstance()
+	res, _ := cache.Set(ctx, "1000", "a")
 	if res != true {
 		t.Errorf("set key:%s is error", "1000")
 	}
