@@ -14,7 +14,8 @@ require (
 	github.com/qit-team/snow-core v0.1.1
 	github.com/qit-team/work v0.3.3
 	github.com/robfig/cron v1.2.0
-)`
+)
+`
 
 	_tplMain = `package main
 

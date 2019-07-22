@@ -31,13 +31,14 @@ Go version>=1.12
 
 ### Installation
 ```shell
-go get -u github.com/qit-team/snow/tool
+go get -u github.com/qit-team/snow/tool/snow
 cd $GOPATH/src
 snow new snow-demo
 ```
 
 ### Build & Run
 ```shell
+cd snow-demo
 sh build/shell/build.sh
 build/bin/snow
 ```
