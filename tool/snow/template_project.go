@@ -11,7 +11,7 @@ require (
 	github.com/BurntSushi/toml v0.3.1
 	github.com/gin-gonic/gin v1.4.0
 	github.com/go-sql-driver/mysql v1.4.1
-	github.com/qit-team/snow-core v0.1.1
+	github.com/qit-team/snow-core v0.1.3
 	github.com/qit-team/work v0.3.3
 	github.com/robfig/cron v1.2.0
 )
