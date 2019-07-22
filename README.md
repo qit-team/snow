@@ -36,17 +36,6 @@ cd $GOPATH/src
 snow new snow-demo
 ```
 
-OR 
-
-```shell
-cd $GOPATH/src
-cd my-github/my-space
-git clone https://github.com/qit-team/snow.git my-project
-cd my-project
-sh build/shell/replace.sh my-github/my-space/my-project
-cp .env.example .env
-```
-
 ### Build & Run
 ```shell
 sh build/shell/build.sh
