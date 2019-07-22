@@ -22,6 +22,7 @@ const (
 	_tplTypeGoMod
 	_tplTypeMain
 	_tplTypeEnv
+	_tplTypeEnvExample
 	_tplTypeLog
 	_tplTypeCacheKey
 	_tplTypeBannerListCache
@@ -56,11 +57,12 @@ var (
 	// files type => path
 	files = map[int]string{
 		// init project
-		_tplTypeReadme: "/README.md",
-		_tplTypeGoMod:  "/go.mod",
-		_tplTypeMain:   "/main.go",
-		_tplTypeEnv:    "/.env",
-		_tplTypeLog:    "/logs/.gitignore",
+		_tplTypeReadme:     "/README.md",
+		_tplTypeGoMod:      "/go.mod",
+		_tplTypeMain:       "/main.go",
+		_tplTypeEnv:        "/.env",
+		_tplTypeEnvExample: "/.env.example",
+		_tplTypeLog:        "/logs/.gitignore",
 		//init caches
 		_tplTypeCacheKey:            "/app/caches/cache_key.go",
 		_tplTypeBannerListCache:     "/app/caches/bannerlistcache/banner_list.go",
@@ -105,6 +107,7 @@ var (
 		_tplTypeGoMod:               _tplGoMod,
 		_tplTypeMain:                _tplMain,
 		_tplTypeEnv:                 _tplEnv,
+		_tplTypeEnvExample:          _tplEnv,
 		_tplTypeLog:                 _tplLog,
 		_tplTypeCacheKey:            _tplCacheKey,
 		_tplTypeBannerListCache:     _tplBannerListCache,
