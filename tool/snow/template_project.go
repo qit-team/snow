@@ -3,6 +3,8 @@ package main
 const (
 	_tplReadme = ``
 
+	_tplGitignore = ``
+
 	_tplGoMod = `module {{.ModuleName}}
 
 go 1.12
@@ -11,7 +13,7 @@ require (
 	github.com/BurntSushi/toml v0.3.1
 	github.com/gin-gonic/gin v1.4.0
 	github.com/go-sql-driver/mysql v1.4.1
-	github.com/qit-team/snow-core v0.1.3
+	github.com/qit-team/snow-core v0.1.5
 	github.com/qit-team/work v0.3.3
 	github.com/robfig/cron v1.2.0
 )
@@ -25,6 +27,7 @@ import (
 	"{{.ModuleName}}/app/console"
 	"{{.ModuleName}}/app/jobs"
 	"{{.ModuleName}}/bootstrap"
+	"{{.ModuleName}}/app/console/commands"
 	"fmt"
 	"os"
 	"errors"
@@ -56,7 +59,7 @@ func main() {
 //执行(status|stop|restart)命令
 func handleCmd(opts *config.Options) {
 	if opts.Cmd != "" {
-		pidFile := config.GenPidFile(opts)
+		pidFile := opts.GenPidFile()
 		err := server.HandleUserCmd(opts.Cmd, pidFile)
 		if err != nil {
 			fmt.Printf("Handle user command(%s) error, %s\n", opts.Cmd, err)
@@ -80,7 +83,7 @@ func startServer(opts *config.Options) (err error) {
 		return
 	}
 
-	pidFile := config.GenPidFile(opts)
+	pidFile := opts.GenPidFile()
 
 	//根据启动命令行参数，决定启动哪种服务模式
 	switch opts.App {
@@ -90,6 +93,8 @@ func startServer(opts *config.Options) (err error) {
 		err = server.StartConsole(pidFile, console.RegisterSchedule)
 	case "job":
 		err = server.StartJob(pidFile, jobs.RegisterWorker)
+	case "command":
+		err = server.ExecuteCommand(opts.Command, commands.RegisterCommand)
 	default:
 		err = errors.New("no server start")
 	}

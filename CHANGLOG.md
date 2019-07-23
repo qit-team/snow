@@ -2,12 +2,13 @@
 
 ### New Features
 - 脚手架：new project
+- Command执行脚本模式支持
 
-### Change
+### Changes
 - 核心组件独立成包
 - Queue实现驱动插件式支持
 - Cache实现驱动插件式支持
-- DB的Mysql驱动默认不导入，由业务自行导入
+- DB的Mysql驱动默认不导入，由业务在main.go入口导入
 
 
 ## Version 1.0.0 (2019-07-08)

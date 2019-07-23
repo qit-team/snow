@@ -19,6 +19,7 @@ type project struct {
 
 const (
 	_tplTypeReadme              = iota
+	_tplTypeGitignore
 	_tplTypeGoMod
 	_tplTypeMain
 	_tplTypeEnv
@@ -29,6 +30,7 @@ const (
 	_tplTypeBannerListCacheTest
 	_tplTypeConsoleKernel
 	_tplTypeConsoleTest
+	_tplTypeCommand
 	_tplTypeConstantCommon
 	_tplTypeConstantErrorCode
 	_tplTypeConstantLogType
@@ -58,6 +60,7 @@ var (
 	files = map[int]string{
 		// init project
 		_tplTypeReadme:     "/README.md",
+		_tplTypeGitignore:  ".gitignore",
 		_tplTypeGoMod:      "/go.mod",
 		_tplTypeMain:       "/main.go",
 		_tplTypeEnv:        "/.env",
@@ -70,6 +73,7 @@ var (
 		//init console
 		_tplTypeConsoleKernel: "/app/console/kernel.go",
 		_tplTypeConsoleTest:   "/app/console/test.go",
+		_tplTypeCommand:       "app/console/commands/command.go",
 		//init constant
 		_tplTypeConstantCommon:    "/app/constants/common/common.go",
 		_tplTypeConstantErrorCode: "/app/constants/errorcode/error_code.go",
@@ -104,6 +108,7 @@ var (
 	// tpls type => content
 	tpls = map[int]string{
 		_tplTypeReadme:              _tplReadme,
+		_tplTypeGitignore:           _tplGitignore,
 		_tplTypeGoMod:               _tplGoMod,
 		_tplTypeMain:                _tplMain,
 		_tplTypeEnv:                 _tplEnv,
@@ -114,6 +119,7 @@ var (
 		_tplTypeBannerListCacheTest: _tplBannerListCacheTest,
 		_tplTypeConsoleKernel:       _tplConsoleKernel,
 		_tplTypeConsoleTest:         _tplConsoleTest,
+		_tplTypeCommand:             _tplCommand,
 		_tplTypeConstantCommon:      _tplConstantCommon,
 		_tplTypeConstantErrorCode:   _tplConstantErrorCode,
 		_tplTypeConstantLogType:     _tplConstantLogType,
