@@ -60,7 +60,7 @@ var (
 	files = map[int]string{
 		// init project
 		_tplTypeReadme:     "/README.md",
-		_tplTypeGitignore:  ".gitignore",
+		_tplTypeGitignore:  "/.gitignore",
 		_tplTypeGoMod:      "/go.mod",
 		_tplTypeMain:       "/main.go",
 		_tplTypeEnv:        "/.env",
@@ -73,7 +73,7 @@ var (
 		//init console
 		_tplTypeConsoleKernel: "/app/console/kernel.go",
 		_tplTypeConsoleTest:   "/app/console/test.go",
-		_tplTypeCommand:       "app/console/commands/command.go",
+		_tplTypeCommand:       "/app/console/commands/command.go",
 		//init constant
 		_tplTypeConstantCommon:    "/app/constants/common/common.go",
 		_tplTypeConstantErrorCode: "/app/constants/errorcode/error_code.go",
