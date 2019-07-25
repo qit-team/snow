@@ -1,11 +1,11 @@
-<img src='docs/img/snow1.png' width="200">
+<img src='docs/img/snow1.png?1' width="210">
 
 
 [![Language](https://img.shields.io/badge/Language-Go-blue.svg)](https://golang.org/)
 [![GoDoc](https://godoc.org/github.com/qit-team/snow?status.svg)](https://godoc.org/github.com/qit-team/snow)
 
 ## Snow
-Snow是一套简单易用的Go语言业务框架，整体逻辑设计简洁，支持HTTP服务、队列调度和任务调度等常用业务场景模式。
+Snow是一套简单易用的Go语言业务框架，整体逻辑设计简洁，支持HTTP服务、队列调度、任务调度和和脚本任务等常用业务场景模式。
 
 ## Goals
 我们致力于让PHPer更方便地切入到Go语言开发，在业务框架选择上贴合PHP主流框架的设计思想，以更低的学习成本快速熟悉框架，致力于业务逻辑的开发。
@@ -27,7 +27,14 @@ Snow是一套简单易用的Go语言业务框架，整体逻辑设计简洁，�
 ## Quick start
 
 ### Requirements
-Go version>=1.12
+- Go version >= 1.12
+- Global environment configure (Linux/Mac)  
+
+```
+export GO111MODULE=on
+export GOPROXY=https://goproxy.io
+
+```
 
 ### Installation
 ```shell

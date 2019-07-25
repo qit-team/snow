@@ -6,7 +6,6 @@ import (
 	"github.com/qit-team/snow/app/console"
 	"github.com/qit-team/snow/app/jobs"
 	"github.com/qit-team/snow/bootstrap"
-	"github.com/qit-team/snow/app/console/commands"
 	"fmt"
 	"os"
 	"errors"
@@ -73,7 +72,7 @@ func startServer(opts *config.Options) (err error) {
 	case "job":
 		err = server.StartJob(pidFile, jobs.RegisterWorker)
 	case "command":
-		err = server.ExecuteCommand(opts.Command, commands.RegisterCommand)
+		err = server.ExecuteCommand(opts.Command, console.RegisterCommand)
 	default:
 		err = errors.New("no server start")
 	}

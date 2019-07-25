@@ -11,9 +11,7 @@ import (
 // project project config
 type project struct {
 	Name       string
-	Owner      string
 	Path       string
-	Here       bool
 	ModuleName string // 支持项目的自定义module名 （go.mod init）
 }
 
@@ -73,7 +71,7 @@ var (
 		//init console
 		_tplTypeConsoleKernel: "/app/console/kernel.go",
 		_tplTypeConsoleTest:   "/app/console/test.go",
-		_tplTypeCommand:       "/app/console/commands/command.go",
+		_tplTypeCommand:       "/app/console/command.go",
 		//init constant
 		_tplTypeConstantCommon:    "/app/constants/common/common.go",
 		_tplTypeConstantErrorCode: "/app/constants/errorcode/error_code.go",
@@ -156,28 +154,28 @@ func create() (err error) {
 				return
 			}
 		}
-		if err = write(p.Path+v, tpls[t]); err != nil {
+		if err = write(p.Path+v, tpls[t], p); err != nil {
 			return
 		}
 	}
 	return
 }
 
-func write(name, tpl string) (err error) {
-	data, err := parse(tpl)
+func write(name, tpl string, data interface{}) (err error) {
+	body, err := parse(tpl, data)
 	if err != nil {
 		return
 	}
-	return ioutil.WriteFile(name, data, 0644)
+	return ioutil.WriteFile(name, body, 0644)
 }
 
-func parse(s string) ([]byte, error) {
+func parse(s string, data interface{}) ([]byte, error) {
 	t, err := template.New("").Parse(s)
 	if err != nil {
 		return nil, err
 	}
 	var buf bytes.Buffer
-	if err = t.Execute(&buf, p); err != nil {
+	if err = t.Execute(&buf, data); err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil

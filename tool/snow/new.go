@@ -29,7 +29,6 @@ func runNew(ctx *cli.Context) error {
 		return err
 	}
 	fmt.Printf("Project: %s\n", p.Name)
-	fmt.Printf("Owner: %s\n", p.Owner)
 	fmt.Printf("Module Name: %s\n", p.ModuleName)
 	fmt.Printf("Directory: %s\n\n", p.Path)
 	fmt.Println("The application has been created.")
