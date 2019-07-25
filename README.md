@@ -1,4 +1,4 @@
-<img src='docs/img/snow1.png?1' width="210">
+<img src='docs/img/snow1.png' width="210">
 
 
 [![Language](https://img.shields.io/badge/Language-Go-blue.svg)](https://golang.org/)
