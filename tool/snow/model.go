@@ -14,8 +14,7 @@ import (
 )
 
 const (
-	defaultDSN        = "root:123456@tcp(localhost:3306)"
-	defaultCharset    = "utf8mb4"
+	defaultDSN        = "root:123456@tcp(localhost:3306)/test"
 	defaultDriverType = "mysql"
 )
 
@@ -32,10 +31,10 @@ type field struct {
 
 type model struct {
 	Name       string //模型名称
+	Path       string //项目目录
 	Table      string //表名，默认同模型名称
-	Path       string //项目根目录，默认当前所在目录
-	DSN        string //数据库连接的dsn配置，与DB必须制定其一
-	DB         string //数据库名称，这个是在dsn为空时才使用，数据库配置默认为root:123456@tcp(localhost:3306)
+	DSN        string //数据库连接的dsn配置
+	DB         string //数据库名称
 	DriverType string //驱动类型，默认mysql
 }
 
@@ -56,12 +55,25 @@ func (m *model) getDriverType() string {
 }
 
 func (m *model) getDSN() string {
+	var dsn string
 	if m.DSN != "" {
-		return m.DSN
-	} else if m.DB != "" {
-		return defaultDSN + "/" + m.DB + "?charset=" + defaultCharset
+		dsn = m.DSN
+	} else {
+		dsn = os.Getenv("SNOW_DSN")
 	}
-	return ""
+	if dsn == "" {
+		dsn = defaultDSN
+	}
+	if m.DB != "" {
+		arr := strings.SplitN(dsn, "/", 2)
+		if len(arr) < 2 {
+			arr = append(arr, m.DB)
+		} else {
+			arr[1] = m.DB
+		}
+		dsn = strings.Join(arr, "/")
+	}
+	return dsn
 }
 
 func init() {
@@ -178,7 +190,7 @@ func isDirExist(path string) bool {
 	if e != nil {
 		return false
 	}
-	return !fi.IsDir()
+	return fi.IsDir()
 }
 
 //将数据库table的定义转换为数据结构实体定义

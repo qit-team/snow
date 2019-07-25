@@ -20,7 +20,7 @@ func main() {
 				cli.StringFlag{
 					Name:        "path, p",
 					Value:       "",
-					Usage:       "project directory for create project",
+					Usage:       "directory for create project, default: current position",
 					Destination: &p.Path,
 				},
 				cli.StringFlag{
@@ -39,7 +39,7 @@ func main() {
 				cli.StringFlag{
 					Name:        "path, p",
 					Value:       "",
-					Usage:       "project directory for new model, default: current directory",
+					Usage:       "project directory, default: current position",
 					Destination: &m.Path,
 				},
 				cli.StringFlag{
@@ -49,19 +49,19 @@ func main() {
 					Destination: &m.Table,
 				},
 				cli.StringFlag{
-					Name:        "dsn",
+					Name:        "dsn, d",
 					Value:       "",
-					Usage:       "database dsn config, eg. root:123345@localhost:3306/test?charset=utf8mb4",
+					Usage:       "database dsn config, default: GetEnv('SNOW_DSN') or 'root:123456@tcp(localhost:3306)/test'",
 					Destination: &m.DSN,
 				},
 				cli.StringFlag{
-					Name:        "database, b",
+					Name:        "db, b",
 					Value:       "",
-					Usage:       "database name. when dsn is empty, it is valid.",
+					Usage:       "database name, will replace dsn's database",
 					Destination: &m.DB,
 				},
 				cli.StringFlag{
-					Name:        "driver, d",
+					Name:        "driver, r",
 					Value:       "",
 					Usage:       "driver type, default: mysql",
 					Destination: &m.DB,
@@ -80,7 +80,7 @@ func main() {
 		},
 		{
 			Name:   "upgrade",
-			Usage:  "snows self-upgrade",
+			Usage:  "snow self-upgrade",
 			Action: upgradeAction,
 		},
 	}

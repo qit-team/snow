@@ -33,7 +33,6 @@ Snow是一套简单易用的Go语言业务框架，整体逻辑设计简洁，�
 ```
 export GO111MODULE=on
 export GOPROXY=https://goproxy.io
-
 ```
 
 ### Installation
