@@ -1,3 +1,14 @@
+## Version 1.1.2 (2019-07-26)
+
+### Changes
+- 升级qit-team/snow-core v0.1.7->v0.1.8
+
+## Version 1.1.1 (2019-07-25)
+
+### Changes
+- 升级qit-team/work v0.3.3->v0.3.4
+- 升级qit-team/snow-core v0.1.5->v0.1.7
+
 ## Version 1.1.0 (2019-07-25)
 
 ### New Features
