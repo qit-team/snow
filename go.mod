@@ -9,7 +9,7 @@ require (
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/go-xorm/xorm v0.7.4
 	github.com/mattn/go-colorable v0.1.2 // indirect
-	github.com/qit-team/snow-core v0.1.9
+	github.com/qit-team/snow-core v0.1.10
 	github.com/qit-team/work v0.3.4
 	github.com/robfig/cron v1.2.0
 	github.com/urfave/cli v1.20.0

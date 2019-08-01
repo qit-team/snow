@@ -107,6 +107,8 @@ github.com/qit-team/snow-core v0.1.8 h1:d9WQtg1tOFOvqj21Ynw3y0CC4KE98vHFQd6d3NFv
 github.com/qit-team/snow-core v0.1.8/go.mod h1:UrTjMDgWUdS8ex4LuMIn7lljcwXCc1nRD5JwJVtjmrY=
 github.com/qit-team/snow-core v0.1.9 h1:2H4PseMSpyJY/gH3khg7DYK/IDxUIt7jEptL8V8AJns=
 github.com/qit-team/snow-core v0.1.9/go.mod h1:UrTjMDgWUdS8ex4LuMIn7lljcwXCc1nRD5JwJVtjmrY=
+github.com/qit-team/snow-core v0.1.10 h1:WV9dIWCHOUM7rdRFZG/szdz5810SqNvskrmF22bFlE4=
+github.com/qit-team/snow-core v0.1.10/go.mod h1:UrTjMDgWUdS8ex4LuMIn7lljcwXCc1nRD5JwJVtjmrY=
 github.com/qit-team/work v0.3.4 h1:Rm3V7u9/9D3AGAETabVUe60RaVGuREE/dgHGkz4WMJA=
 github.com/qit-team/work v0.3.4/go.mod h1:h5m1cZjn+BznChuAyMiR/+IUyWEmaMylPKRhq/AlxKw=
 github.com/rcrowley/go-metrics v0.0.0-20181016184325-3113b8401b8a/go.mod h1:bCqnVzQkZxMG4s8nGwiZ5l3QUCyqpo9Y+/ZMZ9VjZe4=
