@@ -9,19 +9,15 @@ import (
 	"github.com/qit-team/snow-core/log/logger"
 	"github.com/qit-team/snow-core/redis"
 	"{{.ModuleName}}/config"
+	"{{.ModuleName}}/app/jobs/basejob"
 	"strings"
-	"context"
-)
-
-var (
-	jb *work.Job
 )
 
 /**
  * 配置队列任务
  */
 func RegisterWorker(job *work.Job) {
-	setJob(job)
+	basejob.SetJob(job)
 
 	//设置worker的任务投递回调函数
 	job.AddFunc("topic-test", test)
@@ -59,48 +55,6 @@ func SetOptions(job *work.Job) {
 		job.SetEnableTopics(topics...)
 	}
 }
-
-func setJob(job *work.Job) {
-	if jb == nil {
-		jb = job
-	}
-}
-
-func getJob() *work.Job {
-	if jb == nil {
-		jb = work.New()
-		RegisterWorker(jb)
-	}
-	return jb
-}
-
-/**
- * 消息入队 -- 原始message
- */
-func Enqueue(ctx context.Context, topic string, message string, args ...interface{}) (isOk bool, err error) {
-	return getJob().Enqueue(ctx, topic, message, args...)
-}
-
-/**
- * 消息入队 -- Task数据结构
- */
-func EnqueueWithTask(ctx context.Context, topic string, task work.Task, args ...interface{}) (isOk bool, err error) {
-	return getJob().EnqueueWithTask(ctx, topic, task, args...)
-}
-
-/**
- * 消息批量入队 -- 原始message
- */
-func BatchEnqueue(ctx context.Context, topic string, messages []string, args ...interface{}) (isOk bool, err error) {
-	return getJob().BatchEnqueue(ctx, topic, messages, args...)
-}
-
-/**
- * 消息批量入队 -- Task数据结构
- */
-func BatchEnqueueWithTask(ctx context.Context, topic string, tasks []work.Task, args ...interface{}) (isOk bool, err error) {
-	return getJob().BatchEnqueueWithTask(ctx, topic, tasks, args...)
-}
 `
 
 	_tplJobTest = `package jobs
@@ -125,6 +79,73 @@ func test(task work.Task) (work.TaskResult) {
 		return work.TaskResult{Id: task.Id, State: work.StateSucceed}
 	}
 
+}
+`
+
+	_tplJobBase = `package basejob
+
+import (
+	"github.com/qit-team/work"
+	"context"
+	"sync"
+)
+
+var (
+	jb       *work.Job
+	register func(job *work.Job)
+	mu       sync.RWMutex
+)
+
+func SetJob(job *work.Job) {
+	if jb == nil {
+		jb = job
+	}
+}
+
+func SetJobRegister(r func(*work.Job)) {
+	register = r
+}
+
+func GetJob() *work.Job {
+	if jb == nil {
+		if register != nil {
+			mu.Lock()
+			defer mu.Unlock()
+			jb = work.New()
+			register(jb)
+		} else {
+			panic("job register is nil")
+		}
+	}
+	return jb
+}
+
+/**
+ * 消息入队 -- 原始message
+ */
+func Enqueue(ctx context.Context, topic string, message string, args ...interface{}) (isOk bool, err error) {
+	return GetJob().Enqueue(ctx, topic, message, args...)
+}
+
+/**
+ * 消息入队 -- Task数据结构
+ */
+func EnqueueWithTask(ctx context.Context, topic string, task work.Task, args ...interface{}) (isOk bool, err error) {
+	return GetJob().EnqueueWithTask(ctx, topic, task, args...)
+}
+
+/**
+ * 消息批量入队 -- 原始message
+ */
+func BatchEnqueue(ctx context.Context, topic string, messages []string, args ...interface{}) (isOk bool, err error) {
+	return GetJob().BatchEnqueue(ctx, topic, messages, args...)
+}
+
+/**
+ * 消息批量入队 -- Task数据结构
+ */
+func BatchEnqueueWithTask(ctx context.Context, topic string, tasks []work.Task, args ...interface{}) (isOk bool, err error) {
+	return GetJob().BatchEnqueueWithTask(ctx, topic, tasks, args...)
 }
 `
 )

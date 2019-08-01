@@ -2,6 +2,8 @@ package bootstrap
 
 import (
 	"github.com/qit-team/snow/config"
+	"github.com/qit-team/snow/app/jobs/basejob"
+	"github.com/qit-team/snow/app/jobs"
 	"github.com/qit-team/snow-core/redis"
 	"github.com/qit-team/snow-core/db"
 	"github.com/qit-team/snow-core/kernel/container"
@@ -53,5 +55,8 @@ func Bootstrap(conf *config.Config) (err error) {
 
 	//注册应用停止时调用的关闭服务
 	close.MultiRegister(db.Pr, redis.Pr)
+
+	//注册job register，为了非job模式的消息入队调用
+	basejob.SetJobRegister(jobs.RegisterWorker)
 	return nil
 }

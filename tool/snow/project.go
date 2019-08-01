@@ -39,6 +39,7 @@ const (
 	_tplTypeFormatterTest
 	_tplTypeMiddleWare
 	_tplTypeRoute
+	_tplTypeJobBase
 	_tplTypeJobKernel
 	_tplTypeJobTest
 	_tplTypeModel
@@ -85,6 +86,7 @@ var (
 		_tplTypeMiddleWare:     "/app/http/middlewares/server_recovery.go",
 		_tplTypeRoute:          "/app/http/routes/route.go",
 		//init job
+		_tplTypeJobBase:   "/app/jobs/basejob/base_job.go",
 		_tplTypeJobKernel: "/app/jobs/kernel.go",
 		_tplTypeJobTest:   "/app/jobs/test.go",
 		//init model
@@ -128,6 +130,7 @@ var (
 		_tplTypeFormatterTest:       _tplFormatterTest,
 		_tplTypeMiddleWare:          _tplMiddleWare,
 		_tplTypeRoute:               _tplRoute,
+		_tplTypeJobBase:             _tplJobBase,
 		_tplTypeJobKernel:           _tplJobKernel,
 		_tplTypeJobTest:             _tplJobTest,
 		_tplTypeModel:               _tplModel,

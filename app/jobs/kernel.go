@@ -6,19 +6,15 @@ import (
 	"github.com/qit-team/snow-core/log/logger"
 	"github.com/qit-team/snow-core/redis"
 	"github.com/qit-team/snow/config"
+	"github.com/qit-team/snow/app/jobs/basejob"
 	"strings"
-	"context"
-)
-
-var (
-	jb *work.Job
 )
 
 /**
  * 配置队列任务
  */
 func RegisterWorker(job *work.Job) {
-	setJob(job)
+	basejob.SetJob(job)
 
 	//设置worker的任务投递回调函数
 	job.AddFunc("topic-test", test)
@@ -55,46 +51,4 @@ func SetOptions(job *work.Job) {
 		topics := strings.Split(config.GetOptions().Queue, ",")
 		job.SetEnableTopics(topics...)
 	}
-}
-
-func setJob(job *work.Job) {
-	if jb == nil {
-		jb = job
-	}
-}
-
-func getJob() *work.Job {
-	if jb == nil {
-		jb = work.New()
-		RegisterWorker(jb)
-	}
-	return jb
-}
-
-/**
- * 消息入队 -- 原始message
- */
-func Enqueue(ctx context.Context, topic string, message string, args ...interface{}) (isOk bool, err error) {
-	return getJob().Enqueue(ctx, topic, message, args...)
-}
-
-/**
- * 消息入队 -- Task数据结构
- */
-func EnqueueWithTask(ctx context.Context, topic string, task work.Task, args ...interface{}) (isOk bool, err error) {
-	return getJob().EnqueueWithTask(ctx, topic, task, args...)
-}
-
-/**
- * 消息批量入队 -- 原始message
- */
-func BatchEnqueue(ctx context.Context, topic string, messages []string, args ...interface{}) (isOk bool, err error) {
-	return getJob().BatchEnqueue(ctx, topic, messages, args...)
-}
-
-/**
- * 消息批量入队 -- Task数据结构
- */
-func BatchEnqueueWithTask(ctx context.Context, topic string, tasks []work.Task, args ...interface{}) (isOk bool, err error) {
-	return getJob().BatchEnqueueWithTask(ctx, topic, tasks, args...)
 }
