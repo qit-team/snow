@@ -105,6 +105,8 @@ github.com/prometheus/procfs v0.0.0-20181005140218-185b4288413d/go.mod h1:c3At6R
 github.com/prometheus/procfs v0.0.0-20190117184657-bf6a532e95b1/go.mod h1:c3At6R/oaqEKCNdg8wHV1ftS6bRYblBhIjjI8uT2IGk=
 github.com/qit-team/snow-core v0.1.8 h1:d9WQtg1tOFOvqj21Ynw3y0CC4KE98vHFQd6d3NFvtW8=
 github.com/qit-team/snow-core v0.1.8/go.mod h1:UrTjMDgWUdS8ex4LuMIn7lljcwXCc1nRD5JwJVtjmrY=
+github.com/qit-team/snow-core v0.1.9 h1:2H4PseMSpyJY/gH3khg7DYK/IDxUIt7jEptL8V8AJns=
+github.com/qit-team/snow-core v0.1.9/go.mod h1:UrTjMDgWUdS8ex4LuMIn7lljcwXCc1nRD5JwJVtjmrY=
 github.com/qit-team/work v0.3.4 h1:Rm3V7u9/9D3AGAETabVUe60RaVGuREE/dgHGkz4WMJA=
 github.com/qit-team/work v0.3.4/go.mod h1:h5m1cZjn+BznChuAyMiR/+IUyWEmaMylPKRhq/AlxKw=
 github.com/rcrowley/go-metrics v0.0.0-20181016184325-3113b8401b8a/go.mod h1:bCqnVzQkZxMG4s8nGwiZ5l3QUCyqpo9Y+/ZMZ9VjZe4=
