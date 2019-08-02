@@ -37,7 +37,7 @@ export GOPROXY=https://goproxy.io
 
 ### Installation
 ```shell
-go get -u github.com/qit-team/snow/tool/snow
+go get github.com/qit-team/snow/tool/snow
 cd $GOPATH/src
 snow new snow-demo
 ```
