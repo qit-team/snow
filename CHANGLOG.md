@@ -1,3 +1,9 @@
+## Version 1.1.5 (2019-08-13)
+
+### Changes
+- 引入表单验证机制，利用validator.v9做验证
+
+
 ## Version 1.1.4 (2019-08-02)
 
 ### Bug Fix
