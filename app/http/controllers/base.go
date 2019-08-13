@@ -7,6 +7,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"bytes"
+	"gopkg.in/go-playground/validator.v9"
+	"github.com/qit-team/snow-core/log/logger"
 )
 
 /**
@@ -60,7 +62,16 @@ func GenRequest(c *gin.Context, request interface{}) (err error) {
 	if err != nil {
 		return
 	}
-	return json.Unmarshal(body, request)
+	err = json.Unmarshal(body, request)
+	if (err == nil) {
+		validate := validator.New()
+		errValidate := validate.Struct(request)
+		if errValidate != nil {
+			logger.Error(c, "param_validator_exception:" + c.Request.URL.Path, errValidate)
+			return errValidate
+		}
+	}
+	return err
 }
 
 //重复读取body

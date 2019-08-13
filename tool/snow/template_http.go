@@ -10,6 +10,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"bytes"
+    "gopkg.in/go-playground/validator.v9"
+	"github.com/qit-team/snow-core/log/logger"
 )
 
 /**
@@ -63,7 +65,16 @@ func GenRequest(c *gin.Context, request interface{}) (err error) {
 	if err != nil {
 		return
 	}
-	return json.Unmarshal(body, request)
+	err = json.Unmarshal(body, request)
+	if (err == nil) {
+		validate := validator.New()
+		errValidate := validate.Struct(request)
+		if errValidate != nil {
+			logger.Error(c, "param_validator_exception:" + c.Request.URL.Path, errValidate)
+			return errValidate
+		}
+	}
+	return err
 }
 
 //重复读取body
@@ -143,6 +154,19 @@ func GetBannerList(c *gin.Context) {
 
 	Success(c, data)
 }
+
+//测试request validator
+func HandleTestValidator(c *gin.Context) {
+	request := new(entities.TestValidatorRequest)
+	err := GenRequest(c, request)
+	if err != nil {
+		Error(c, errorcode.ParamError)
+		return
+	}
+
+	Success(c, request)
+	return
+}
 `
 
 	_tplEntity = `package entities
@@ -158,6 +182,35 @@ type TestResponse struct {
 	Id   int64  ` + "`json:\"id\"`" + `
 	Name string ` + "`json:\"name\"`" + `
 	Url  string ` + "`json:\"url\"`" + `
+}
+
+/*
+ * validator.v9文档
+ * 地址https://godoc.org/gopkg.in/go-playground/validator.v9
+ * 列了几个大家可能会用到的，如有遗漏，请看上面文档
+ */
+
+//请求数据结构
+type TestValidatorRequest struct {
+	//tips，因为组件required不管是没传值或者传 0 or "" 都通过不了，但是如果用指针类型，那么0就是0，而nil无法通过校验
+	Id   *int64 ` + "`json:\"id\" validate:\"required\"`" + `
+	Age  int ` + "`json:\"age\" validate:\"required,gte=0,lte=130\"`" + `
+	Name *string ` + "`json:\"name\" validate:\"required\"`" + `
+	Email string ` + "`json:\"email\" validate:\"required,email\"`" + `
+	Url  string ` + "`json:\"url\" validate:\"required\"`" + `
+	Mobile string ` + "`json:\"mobile\" validate:\"required\"`" + `
+	RangeNum int ` + "`json:\"range_num\" validate:\"max=10,min=1\"`" + `
+	TestNum *int ` + "`json:\"test_num\" validate:\"required,oneof=5 7 9\"`" + `
+	Content *string ` + "`json:\"content\"`" + `
+	Addresses []*Address `+ "`json:\"addresses\" validate:\"required,dive,required\"`" + `
+}
+
+// Address houses a users address information
+type Address struct {
+	Street string ` + "`json:\"street\" validate:\"required\"`" + `
+	City   string ` + "`json:\"city\" validate:\"required\"`" + `
+	Planet string ` + "`json:\"planet\" validate:\"required\"`" + `
+	Phone  string ` + "`json:\"phone\" validate:\"required\"`" + `
 }`
 
 	_tplFormatter = `package bannerformatter
@@ -311,8 +364,9 @@ func RegisterRoute(router *gin.Engine) {
 	router.NoRoute(controllers.Error404)
 	router.GET("/hello", controllers.HandleHello)
 	router.POST("/test", controllers.HandleTest)
-
-	//api版本
+    router.POST("/test_validator", controllers.HandleTestValidator)
+	
+    //api版本
 	v1 := router.Group("/v1")
 	{
 		v1.GET("/banner_list", controllers.GetBannerList)
