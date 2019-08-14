@@ -18,6 +18,7 @@ func RegisterRoute(router *gin.Engine) {
 	router.NoRoute(controllers.Error404)
 	router.GET("/hello", controllers.HandleHello)
 	router.POST("/test", controllers.HandleTest)
+	router.POST("/test_validator", controllers.HandleTestValidator)
 
 	//api版本
 	v1 := router.Group("/v1")

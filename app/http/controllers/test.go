@@ -64,3 +64,16 @@ func GetBannerList(c *gin.Context) {
 
 	Success(c, data)
 }
+
+//测试request validator
+func HandleTestValidator(c *gin.Context) {
+	request := new(entities.TestValidatorRequest)
+	err := GenRequest(c, request)
+	if err != nil {
+		Error(c, errorcode.ParamError)
+		return
+	}
+
+	Success(c, request)
+	return
+}

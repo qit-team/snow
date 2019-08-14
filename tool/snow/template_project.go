@@ -40,8 +40,9 @@ require (
 	github.com/gin-gonic/gin v1.4.0
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/qit-team/snow-core v0.1.10
-	github.com/qit-team/work v0.3.4
+	github.com/qit-team/work v0.3.5
 	github.com/robfig/cron v1.2.0
+    gopkg.in/go-playground/validator.v9 v9.29.1
 )
 `
 

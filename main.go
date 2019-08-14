@@ -1,15 +1,15 @@
 package main
 
 import (
-	"github.com/qit-team/snow/config"
-	"github.com/qit-team/snow/app/http/routes"
+	"errors"
+	"fmt"
+	"github.com/qit-team/snow-core/kernel/server"
 	"github.com/qit-team/snow/app/console"
+	"github.com/qit-team/snow/app/http/routes"
 	"github.com/qit-team/snow/app/jobs"
 	"github.com/qit-team/snow/bootstrap"
-	"fmt"
+	"github.com/qit-team/snow/config"
 	"os"
-	"errors"
-	"github.com/qit-team/snow-core/kernel/server"
 	//启用本程序需要的各驱动
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/qit-team/snow-core/cache/rediscache"

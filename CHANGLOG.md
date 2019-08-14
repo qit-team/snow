@@ -1,3 +1,10 @@
+## Version 1.1.5 (2019-08-14)
+
+### Changes
+- 引入表单验证机制，利用validator.v9做验证
+- 同时将work升级至0.3.5：队列处理异常将recover参数加入回调函数
+
+
 ## Version 1.1.4 (2019-08-02)
 
 ### Bug Fix
