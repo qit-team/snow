@@ -11,7 +11,7 @@ import (
 	"io/ioutil"
 	"bytes"
     "gopkg.in/go-playground/validator.v9"
-	"github.com/qit-team/snow-core/log/logger"
+    "github.com/qit-team/snow-core/log/logger"
 )
 
 /**
