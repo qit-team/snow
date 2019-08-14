@@ -16,7 +16,6 @@ require (
 	github.com/qit-team/work v0.3.4
 	github.com/robfig/cron v1.2.0
 	github.com/urfave/cli v1.20.0
-	gopkg.in/go-playground/validator.v8 v8.18.2
 	gopkg.in/go-playground/validator.v9 v9.29.1
 	xorm.io/core v0.6.3
 
