@@ -7,15 +7,15 @@ import (
 )
 
 const (
-	ProdEnv  = "production" //线上环境
-	BetaEnv  = "beta"       //beta环境
-	DevEnv   = "develop"    //开发环境
-	LocalEnv = "local"      //本地环境
+	ProdEnv  = "production" // 线上环境
+	BetaEnv  = "beta"       // beta环境
+	DevEnv   = "develop"    // 开发环境
+	LocalEnv = "local"      // 本地环境
 )
 
 var srvConf *Config
 
-//------------------------配置文件解析
+// ------------------------配置文件解析
 type Config struct {
 	Env   string             `toml:"Env"`
 	Debug bool               `toml:"Debug"`
@@ -30,7 +30,7 @@ func newConfig() *Config {
 	return new(Config)
 }
 
-//------------------------ 加载配置 ------------------------//
+// ------------------------ 加载配置 ------------------------// 
 func Load(path string) (*Config, error) {
 	_, err := os.Stat(path)
 	if err != nil {
@@ -45,17 +45,17 @@ func Load(path string) (*Config, error) {
 	return conf, nil
 }
 
-//当前配置
+// 当前配置
 func GetConf() *Config {
 	return srvConf
 }
 
-//是否调试模式
+// 是否调试模式
 func IsDebug() bool {
 	return srvConf.Debug
 }
 
-//当前环境，默认本地开发
+// 当前环境，默认本地开发
 func GetEnv() string {
 	if srvConf.Env == "" {
 		return LocalEnv
@@ -63,7 +63,7 @@ func GetEnv() string {
 	return srvConf.Env
 }
 
-//是否当前环境
+// 是否当前环境
 func IsEnvEqual(env string) bool {
 	return GetEnv() == env
 }

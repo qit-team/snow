@@ -11,13 +11,13 @@ import (
 )
 
 func init() {
-	//加载配置文件
+	// 加载配置文件
 	conf, err := config.Load("../../../.env")
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	//注册redis类
+	// 注册redis类
 	err = redis.Pr.Register(cache.DefaultDiName, conf.Redis)
 	if err != nil {
 		fmt.Println(err)

@@ -1,12 +1,12 @@
 package entities
 
-//请求数据结构
+// 请求数据结构
 type TestRequest struct {
 	Name string `json:"name"`
 	Url  string `json:"url"`
 }
 
-//返回数据结构
+// 返回数据结构
 type TestResponse struct {
 	Id   int64  `json:"id"`
 	Name string `json:"name"`
@@ -19,9 +19,9 @@ type TestResponse struct {
  * 列了几个大家可能会用到的，如有遗漏，请看上面文档
  */
 
-//请求数据结构
+// 请求数据结构
 type TestValidatorRequest struct {
-	//tips，因为组件required不管是没传值或者传 0 or "" 都通过不了，但是如果用指针类型，那么0就是0，而nil无法通过校验
+	// tips，因为组件required不管是没传值或者传 0 or "" 都通过不了，但是如果用指针类型，那么0就是0，而nil无法通过校验
 	Id   *int64  `json:"id" validate:"required"`
 	Age  int `json:"age" validate:"required,gte=0,lte=130"`
 	Name *string `json:"name" validate:"required"`
@@ -35,7 +35,7 @@ type TestValidatorRequest struct {
 
 }
 
-// Address houses a users address information
+//  Address houses a users address information
 type Address struct {
 	Street string `json:"street" validate:"required"`
 	City   string `json:"city" validate:"required"`
@@ -43,7 +43,7 @@ type Address struct {
 	Phone  string `json:"phone" validate:"required"`
 }
 
-//返回数据结构
+// 返回数据结构
 type TestValidatorResponse struct {
 	Id   int64  `json:"id"`
 	Name string `json:"name"`

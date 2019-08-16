@@ -14,7 +14,7 @@ var (
  * Banner实体
  */
 type Banner struct {
-	Id        int64     `xorm:"pk autoincr"` //注：使用getOne 或者ID() 需要设置主键
+	Id        int64     `xorm:"pk autoincr"` // 注：使用getOne 或者ID() 需要设置主键
 	Pid       int
 	Title     string
 	ImageUrl  string    `xorm:"'img_url'"`
@@ -22,7 +22,7 @@ type Banner struct {
 	Status    string
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt time.Time `xorm:"deleted"` //此特性会激发软删除
+	DeletedAt time.Time `xorm:"deleted"` // 此特性会激发软删除
 }
 
 /**
@@ -37,14 +37,14 @@ func (m *Banner) TableName() string {
  * 私有化，防止被外部new
  */
 type bannerModel struct {
-	db.Model //组合基础Model，集成基础Model的属性和方法
+	db.Model // 组合基础Model，集成基础Model的属性和方法
 }
 
-//单例模式
+// 单例模式
 func GetInstance() *bannerModel {
 	once.Do(func() {
 		m = new(bannerModel)
-		//m.DiName = "" //设置数据库实例连接，默认db.SingletonMain
+		// m.DiName = "" // 设置数据库实例连接，默认db.SingletonMain
 	})
 	return m
 }

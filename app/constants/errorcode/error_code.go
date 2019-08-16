@@ -1,22 +1,22 @@
 package errorcode
 
 const (
-	//成功
+	// 成功
 	Success = 200
 
-	//参数错误
+	// 参数错误
 	ParamError = 400
 
-	//未经授权
+	// 未经授权
 	NotAuth = 401
 
-	//请求被禁止
+	// 请求被禁止
 	Forbidden = 403
 
-	//找不到页面
+	// 找不到页面
 	NotFound = 404
 
-	//系统错误
+	// 系统错误
 	SystemError = 500
 )
 

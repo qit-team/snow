@@ -26,7 +26,7 @@ func ServerRecovery() gin.HandlerFunc {
 				logger.GetLogger().Error(string(msgJson), logtype.GoPanic, c)
 
 				if config.IsDebug() {
-					//本地开发 debug 模式开启时输出错误信息到shell
+					// 本地开发 debug 模式开启时输出错误信息到shell
 					syslog.Println(err)
 				}
 
@@ -39,10 +39,10 @@ func ServerRecovery() gin.HandlerFunc {
 			}
 		}()
 
-		//before request
+		// before request
 
 		c.Next()
 
-		//after request
+		// after request
 	}
 }
