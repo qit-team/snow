@@ -45,6 +45,7 @@ snow new snow-demo
 ### Build & Run
 ```shell
 cd snow-demo
+go mod vendor
 sh build/shell/build.sh
 build/bin/snow
 ```
