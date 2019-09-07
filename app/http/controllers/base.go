@@ -52,6 +52,11 @@ func Error500(c *gin.Context) {
 	Error(c, errorcode.SystemError)
 }
 
+type HTTPError struct {
+	Code    int    `json:"code" example:"400"`
+	Message string `json:"message" example:"status bad request"`
+}
+
 /**
  * 将请求的body转换为request数据结构
  * @param c

@@ -1,0 +1,226 @@
+basePath: /
+definitions:
+  controllers.HTTPError:
+    properties:
+      code:
+        example: 400
+        type: integer
+      message:
+        example: status bad request
+        type: string
+    type: object
+  entities.Address:
+    properties:
+      city:
+        example: xiamen
+        type: string
+      phone:
+        example: snow
+        type: string
+      planet:
+        example: snow
+        type: string
+      street:
+        example: huandaodonglu
+        type: string
+    required:
+    - city
+    - phone
+    - planet
+    - street
+    type: object
+  entities.TestRequest:
+    properties:
+      name:
+        example: snow
+        type: string
+      url:
+        example: github.com/qit-team/snow
+        type: string
+    type: object
+  entities.TestResponse:
+    properties:
+      id:
+        example: 1
+        type: integer
+      name:
+        example: snow
+        type: string
+      url:
+        example: github.com/qit-team/snow
+        type: string
+    type: object
+  entities.TestValidatorRequest:
+    properties:
+      addresses:
+        items:
+          $ref: '#/definitions/entities.Address'
+        type: array
+      age:
+        example: 20
+        type: integer
+      content:
+        example: snow
+        type: string
+      email:
+        example: snow@github.com
+        type: string
+      id:
+        description: tips，因为组件required不管是没传值或者传 0 or "" 都通过不了，但是如果用指针类型，那么0就是0，而nil无法通过校验
+        example: 1
+        type: integer
+      mobile:
+        example: snow
+        type: string
+      name:
+        example: snow
+        type: string
+      range_num:
+        example: 3
+        type: integer
+      test_num:
+        example: 7
+        type: integer
+      url:
+        example: github.com/qit-team/snow
+        type: string
+    required:
+    - age
+    - email
+    - id
+    - mobile
+    - name
+    - test_num
+    - url
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /test:
+    post:
+      consumes:
+      - application/json
+      description: request和response的示例
+      parameters:
+      - description: test request
+        in: body
+        name: test
+        required: true
+        schema:
+          $ref: '#/definitions/entities.TestRequest'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entities.TestResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.HTTPError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.HTTPError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.HTTPError'
+            type: object
+      summary: request和response的示例
+      tags:
+      - snow
+  /test_validator:
+    post:
+      consumes:
+      - application/json
+      description: HandleTestValidator的示例
+      parameters:
+      - description: example of validator
+        in: body
+        name: testValidator
+        required: true
+        schema:
+          $ref: '#/definitions/entities.TestValidatorRequest'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entities.TestValidatorRequest'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.HTTPError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.HTTPError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.HTTPError'
+            type: object
+      summary: HandleTestValidator的示例
+      tags:
+      - snow
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  BasicAuth:
+    type: basic
+  OAuth2AccessCode:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: accessCode
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Application:
+    flow: application
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Implicit:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: implicit
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    type: oauth2
+  OAuth2Password:
+    flow: password
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      read: ' Grants read access'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+swagger: "2.0"

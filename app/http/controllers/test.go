@@ -11,14 +11,26 @@ import (
 	"strconv"
 )
 
-//hello示例
+// hello示例
 func HandleHello(c *gin.Context) {
 	logger.Debug(c, "hello", "test message")
 	Success(c, "hello world!")
 	return
 }
 
-//request和response的示例
+// request和response的示例
+// HandleTest godoc
+// @Summary request和response的示例
+// @Description request和response的示例
+// @Tags snow
+// @Accept  json
+// @Produce  json
+// @Param test body entities.TestRequest true "test request"
+// @Success 200 {array} entities.TestResponse
+// @Failure 400 {object} controllers.HTTPError
+// @Failure 404 {object} controllers.HTTPError
+// @Failure 500 {object} controllers.HTTPError
+// @Router /test [post]
 func HandleTest(c *gin.Context) {
 	request := new(entities.TestRequest)
 	err := GenRequest(c, request)
@@ -65,7 +77,20 @@ func GetBannerList(c *gin.Context) {
 	Success(c, data)
 }
 
-//测试request validator
+
+// validator的示例
+// HandleTestValidator godoc
+// @Summary HandleTestValidator的示例
+// @Description HandleTestValidator的示例
+// @Tags snow
+// @Accept  json
+// @Produce json
+// @Param testValidator body entities.TestValidatorRequest true "example of validator"
+// @Success 200 {array} entities.TestValidatorRequest
+// @Failure 400 {object} controllers.HTTPError
+// @Failure 404 {object} controllers.HTTPError
+// @Failure 500 {object} controllers.HTTPError
+// @Router /test_validator [post]
 func HandleTestValidator(c *gin.Context) {
 	request := new(entities.TestValidatorRequest)
 	err := GenRequest(c, request)
