@@ -28,6 +28,12 @@ func runNew(ctx *cli.Context) error {
 	if err := create(); err != nil {
 		return err
 	}
+
+	// 创建完项目执行安装swag命令
+	if err := installSwag(); err != nil {
+		fmt.Printf("Swagger install fail\n", err)
+	}
+
 	fmt.Printf("Project: %s\n", p.Name)
 	fmt.Printf("Module Name: %s\n", p.ModuleName)
 	fmt.Printf("Directory: %s\n\n", p.Path)

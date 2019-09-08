@@ -83,6 +83,22 @@ func main() {
 			Usage:  "snow self-upgrade",
 			Action: upgradeAction,
 		},
+		{
+			Name:    "doc",
+			Aliases: []string{"d"},
+			Usage:   "generate doc",
+
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:        "path, p",
+					Value:       "",
+					Usage:       "project directory, default: current position",
+					Destination: &d.Path,
+				},
+			},
+
+			Action: runDoc,
+		},
 	}
 
 	err := app.Run(os.Args)

@@ -51,6 +51,7 @@ const (
 	_tplTypeOption
 	_tplTypeBuildBin
 	_tplTypeBuildShell
+	_tplTypeDocs
 )
 
 var (
@@ -104,6 +105,8 @@ var (
 		//init build
 		_tplTypeBuildBin:   "/build/bin/.gitignore",
 		_tplTypeBuildShell: "/build/shell/build.sh",
+		//init docs
+		_tplTypeDocs:   "/docs/docs.go",
 	}
 	// tpls type => content
 	tpls = map[int]string{
@@ -142,6 +145,7 @@ var (
 		_tplTypeOption:              _tplOption,
 		_tplTypeBuildBin:            _tplBuildBin,
 		_tplTypeBuildShell:          _tplBuildShell,
+		_tplTypeDocs:                _tplDocs,
 	}
 )
 

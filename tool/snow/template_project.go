@@ -58,6 +58,7 @@ import (
 	"{{.ModuleName}}/app/console"
 	"{{.ModuleName}}/app/jobs"
 	"{{.ModuleName}}/bootstrap"
+    _ "{{.ModuleName}}/docs"
 	"fmt"
 	"os"
 	"errors"
@@ -66,7 +67,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/qit-team/snow-core/cache/rediscache"
 	_ "github.com/qit-team/snow-core/queue/redisqueue"
-    _ "github.com/qit-team/snow/docs"
 	//_ "github.com/qit-team/snow-core/queue/alimnsqueue"
 )
 

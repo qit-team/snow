@@ -112,6 +112,8 @@ func runTool(name, dir, cmd string, args []string) (err error) {
 		Stderr: os.Stderr,
 		Env:    os.Environ(),
 	}
+
+	fmt.Println("======11111111", filepath.Base(cmd), cmd)
 	if filepath.Base(cmd) == cmd {
 		var lp string
 		if lp, err = exec.LookPath(cmd); err == nil {
@@ -207,4 +209,19 @@ func gopath() (gp string) {
 		}
 	}
 	return build.Default.GOPATH
+}
+
+func installSwag() error{
+	cmdName, cmdPath, command := "swag install", gopath(), "go get -u github.com/swaggo/swag/cmd/swag"
+
+	cmds := strings.Split(command, " ")
+	err := runTool(cmdName, cmdPath, cmds[0], cmds[1:])
+	return err
+}
+
+func runSwagInit(swagPath string) error{
+	cmdName, cmdPath, command := "swag init", swagPath, "swag init"
+	cmds := strings.Split(command, " ")
+	err := runTool(cmdName, cmdPath, cmds[0], cmds[1:])
+	return err
 }
