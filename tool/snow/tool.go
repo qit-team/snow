@@ -113,7 +113,6 @@ func runTool(name, dir, cmd string, args []string) (err error) {
 		Env:    os.Environ(),
 	}
 
-	fmt.Println("======11111111", filepath.Base(cmd), cmd)
 	if filepath.Base(cmd) == cmd {
 		var lp string
 		if lp, err = exec.LookPath(cmd); err == nil {
