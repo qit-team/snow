@@ -43,6 +43,10 @@ require (
 	github.com/qit-team/work v0.3.5
 	github.com/robfig/cron v1.2.0
     gopkg.in/go-playground/validator.v9 v9.29.1
+    github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
+    github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14 // indirect
+    github.com/swaggo/gin-swagger v1.2.0
+    github.com/swaggo/swag v1.6.2
 )
 `
 
@@ -54,6 +58,7 @@ import (
 	"{{.ModuleName}}/app/console"
 	"{{.ModuleName}}/app/jobs"
 	"{{.ModuleName}}/bootstrap"
+    _ "{{.ModuleName}}/docs"
 	"fmt"
 	"os"
 	"errors"
@@ -65,6 +70,47 @@ import (
 	//_ "github.com/qit-team/snow-core/queue/alimnsqueue"
 )
 
+// @title Swagger Example API
+// @version 1.0
+// @description This is a sample server celler server.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:8080
+// @BasePath /
+
+// @securityDefinitions.basic BasicAuth
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+
+// @securitydefinitions.oauth2.application OAuth2Application
+// @tokenUrl https://example.com/oauth/token
+// @scope.write Grants write access
+// @scope.admin Grants read and write access to administrative information
+
+// @securitydefinitions.oauth2.implicit OAuth2Implicit
+// @authorizationUrl https://example.com/oauth/authorize
+// @scope.write Grants write access
+// @scope.admin Grants read and write access to administrative information
+
+// @securitydefinitions.oauth2.password OAuth2Password
+// @tokenUrl https://example.com/oauth/token
+// @scope.read Grants read access
+// @scope.write Grants write access
+// @scope.admin Grants read and write access to administrative information
+
+// @securitydefinitions.oauth2.accessCode OAuth2AccessCode
+// @tokenUrl https://example.com/oauth/token
+// @authorizationUrl https://example.com/oauth/authorize
+// @scope.admin Grants read and write access to administrative information
 func main() {
 	//解析启动命令
 	opts := config.GetOptions()
@@ -164,7 +210,7 @@ DBName = "test"
 
 [Api]
 Host = "0.0.0.0"
-Port = 8000
+Port = 8080
 
 [Cache]
 Driver = "redis"

@@ -8,6 +8,8 @@ import (
 	"github.com/qit-team/snow/app/http/middlewares"
 	"github.com/gin-gonic/gin"
 	"github.com/qit-team/snow-core/http/middleware"
+	"github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 // api路由配置
@@ -25,4 +27,5 @@ func RegisterRoute(router *gin.Engine) {
 	{
 		v1.GET("/banner_list", controllers.GetBannerList)
 	}
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
