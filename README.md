@@ -52,7 +52,7 @@ build/bin/snow
 
 ### Test demo
 ```
-curl "http://127.0.0.1:8000/hello"
+curl "http://127.0.0.1:8080/hello"
 ```
 
 ## Documents
