@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/fatih/color"
+	"github.com/urfave/cli"
 	"go/build"
 	"os"
 	"os/exec"
@@ -11,8 +13,6 @@ import (
 	"sort"
 	"strings"
 	"time"
-	"github.com/fatih/color"
-	"github.com/urfave/cli"
 )
 
 const (
@@ -210,7 +210,7 @@ func gopath() (gp string) {
 	return build.Default.GOPATH
 }
 
-func installSwag() error{
+func installSwag() error {
 	cmdName, cmdPath, command := "swag install", gopath(), "go get -u github.com/swaggo/swag/cmd/swag"
 
 	cmds := strings.Split(command, " ")
@@ -218,7 +218,7 @@ func installSwag() error{
 	return err
 }
 
-func runSwagInit(swagPath string) error{
+func runSwagInit(swagPath string) error {
 	cmdName, cmdPath, command := "swag init", swagPath, "swag init"
 	cmds := strings.Split(command, " ")
 	err := runTool(cmdName, cmdPath, cmds[0], cmds[1:])

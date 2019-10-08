@@ -1,9 +1,9 @@
 package bannerlistcache
 
 import (
+	"github.com/qit-team/snow-core/cache"
 	"github.com/qit-team/snow/app/caches"
 	"sync"
-	"github.com/qit-team/snow-core/cache"
 )
 
 const (

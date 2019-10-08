@@ -3,11 +3,11 @@ package bannerlistcache
 import (
 	"context"
 	"fmt"
-	"github.com/qit-team/snow/config"
-	"github.com/qit-team/snow-core/redis"
-	"testing"
 	"github.com/qit-team/snow-core/cache"
 	_ "github.com/qit-team/snow-core/cache/rediscache"
+	"github.com/qit-team/snow-core/redis"
+	"github.com/qit-team/snow/config"
+	"testing"
 )
 
 func init() {

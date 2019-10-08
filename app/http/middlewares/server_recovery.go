@@ -2,10 +2,10 @@ package middlewares
 
 import (
 	"encoding/json"
+	"github.com/gin-gonic/gin"
+	"github.com/qit-team/snow-core/log/logger"
 	"github.com/qit-team/snow/app/constants/logtype"
 	"github.com/qit-team/snow/config"
-	"github.com/qit-team/snow-core/log/logger"
-	"github.com/gin-gonic/gin"
 	syslog "log"
 	"net/http/httputil"
 	"runtime/debug"

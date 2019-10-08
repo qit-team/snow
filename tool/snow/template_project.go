@@ -10,7 +10,7 @@ Snow是一套简单易用的Go语言业务框架，整体逻辑设计简洁，�
 sh build/shell/build.sh
 
 ### Run
-`+ "```" + `shell
+` + "```" + `shell
 1. build/bin/snow -a api  #启动Api服务
 2. build/bin/snow -a cron #启动Cron定时任务服务
 3. build/bin/snow -a job  #启动队列调度服务

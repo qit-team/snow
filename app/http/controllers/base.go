@@ -1,14 +1,14 @@
 package controllers
 
 import (
-	"github.com/qit-team/snow/app/constants/errorcode"
-	"github.com/gin-gonic/gin"
-	"net/http"
-	"encoding/json"
-	"io/ioutil"
 	"bytes"
-	"gopkg.in/go-playground/validator.v9"
+	"encoding/json"
+	"github.com/gin-gonic/gin"
 	"github.com/qit-team/snow-core/log/logger"
+	"github.com/qit-team/snow/app/constants/errorcode"
+	"gopkg.in/go-playground/validator.v9"
+	"io/ioutil"
+	"net/http"
 )
 
 /**
@@ -68,11 +68,11 @@ func GenRequest(c *gin.Context, request interface{}) (err error) {
 		return
 	}
 	err = json.Unmarshal(body, request)
-	if (err == nil) {
+	if err == nil {
 		validate := validator.New()
 		errValidate := validate.Struct(request)
 		if errValidate != nil {
-			logger.Error(c, "param_validator_exception:" + c.Request.URL.Path, errValidate)
+			logger.Error(c, "param_validator_exception:"+c.Request.URL.Path, errValidate)
 			return errValidate
 		}
 	}

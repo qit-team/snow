@@ -1,16 +1,16 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
-	"os"
-	"github.com/urfave/cli"
-	"bytes"
-	"strings"
-	"github.com/go-xorm/xorm"
-	"xorm.io/core"
-	"strconv"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/go-xorm/xorm"
+	"github.com/urfave/cli"
+	"os"
+	"strconv"
+	"strings"
+	"xorm.io/core"
 )
 
 const (

@@ -3,9 +3,9 @@ package main
 import (
 	"errors"
 	"fmt"
+	"github.com/urfave/cli"
 	"os"
 	"path"
-	"github.com/urfave/cli"
 )
 
 func runNew(ctx *cli.Context) error {

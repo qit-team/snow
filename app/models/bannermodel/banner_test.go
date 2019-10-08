@@ -2,11 +2,11 @@ package bannermodel
 
 import (
 	"fmt"
-	"testing"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/qit-team/snow-core/config"
 	"github.com/qit-team/snow-core/db"
 	"github.com/qit-team/snow-core/utils"
-	_ "github.com/go-sql-driver/mysql"
+	"testing"
 )
 
 func init() {

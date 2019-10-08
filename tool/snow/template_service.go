@@ -1,7 +1,7 @@
 package main
 
 const (
-	_tplService   = `package bannerservice
+	_tplService = `package bannerservice
 
 import (
 	"{{.ModuleName}}/app/models/bannermodel"
@@ -27,5 +27,4 @@ func GetLimitStart(limit int, page int) (arr []int) {
 	return
 }
 `
-
 )

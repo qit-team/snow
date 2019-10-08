@@ -2,9 +2,9 @@ package main
 
 import (
 	"errors"
-	"os"
-	"github.com/urfave/cli"
 	"fmt"
+	"github.com/urfave/cli"
+	"os"
 )
 
 var (
@@ -12,9 +12,8 @@ var (
 )
 
 type docs struct {
-	Path       string //项目目录
+	Path string //项目目录
 }
-
 
 func init() {
 	d = new(docs)

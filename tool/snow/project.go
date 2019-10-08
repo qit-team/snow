@@ -16,7 +16,7 @@ type project struct {
 }
 
 const (
-	_tplTypeReadme              = iota
+	_tplTypeReadme = iota
 	_tplTypeGitignore
 	_tplTypeGoMod
 	_tplTypeMain
@@ -106,7 +106,7 @@ var (
 		_tplTypeBuildBin:   "/build/bin/.gitignore",
 		_tplTypeBuildShell: "/build/shell/build.sh",
 		//init docs
-		_tplTypeDocs:   "/docs/docs.go",
+		_tplTypeDocs: "/docs/docs.go",
 	}
 	// tpls type => content
 	tpls = map[int]string{

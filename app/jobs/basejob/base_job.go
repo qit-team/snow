@@ -1,8 +1,8 @@
 package basejob
 
 import (
-	"github.com/qit-team/work"
 	"context"
+	"github.com/qit-team/work"
 	"sync"
 )
 

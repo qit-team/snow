@@ -1,12 +1,12 @@
 package jobs
 
 import (
-	"github.com/qit-team/work"
-	"github.com/qit-team/snow-core/queue"
 	"github.com/qit-team/snow-core/log/logger"
+	"github.com/qit-team/snow-core/queue"
 	"github.com/qit-team/snow-core/redis"
-	"github.com/qit-team/snow/config"
 	"github.com/qit-team/snow/app/jobs/basejob"
+	"github.com/qit-team/snow/config"
+	"github.com/qit-team/work"
 	"strings"
 )
 
