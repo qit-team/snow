@@ -23,7 +23,7 @@ const (
 var MsgEN = map[int]string{
 	Success:     "success",
 	ParamError:  "param error",
-	NotAuth: "not authorized",
+	NotAuth:     "not authorized",
 	Forbidden:   "forbidden",
 	NotFound:    "not found",
 	SystemError: "system error",

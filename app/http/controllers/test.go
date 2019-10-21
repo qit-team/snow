@@ -2,13 +2,13 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/qit-team/snow-core/log/logger"
+	"github.com/qit-team/snow/app/constants/errorcode"
+	"github.com/qit-team/snow/app/http/entities"
 	"github.com/qit-team/snow/app/http/formatters/bannerformatter"
 	"github.com/qit-team/snow/app/services/bannerservice"
-	"github.com/qit-team/snow/app/http/entities"
-	"github.com/qit-team/snow/app/constants/errorcode"
-	"time"
-	"github.com/qit-team/snow-core/log/logger"
 	"strconv"
+	"time"
 )
 
 // hello示例
@@ -76,7 +76,6 @@ func GetBannerList(c *gin.Context) {
 
 	Success(c, data)
 }
-
 
 // validator的示例
 // HandleTestValidator godoc

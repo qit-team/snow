@@ -45,7 +45,7 @@ func GetInstance() *bannerListCache {
 }
 `
 
-  _tplBannerListCacheTest = `package bannerlistcache
+	_tplBannerListCacheTest = `package bannerlistcache
 
 import (
 	"context"

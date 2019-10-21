@@ -3,6 +3,7 @@
 
 [![Language](https://img.shields.io/badge/Language-Go-blue.svg)](https://golang.org/)
 [![GoDoc](https://godoc.org/github.com/qit-team/snow?status.svg)](https://godoc.org/github.com/qit-team/snow)
+[![Go Report Card](https://goreportcard.com/badge/github.com/qit-team/snow)](https://goreportcard.com/report/github.com/qit-team/snow)
 
 ## Snow
 Snow是一套简单易用的Go语言业务框架，整体逻辑设计简洁，支持HTTP服务、队列调度、任务调度和和脚本任务等常用业务场景模式。

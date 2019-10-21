@@ -4,10 +4,10 @@ package routes
  * 配置路由
  */
 import (
-	"github.com/qit-team/snow/app/http/controllers"
-	"github.com/qit-team/snow/app/http/middlewares"
 	"github.com/gin-gonic/gin"
 	"github.com/qit-team/snow-core/http/middleware"
+	"github.com/qit-team/snow/app/http/controllers"
+	"github.com/qit-team/snow/app/http/middlewares"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 )

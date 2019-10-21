@@ -231,7 +231,7 @@ type TestValidatorRequest struct {
 	RangeNum int ` + "`json:\"range_num\" validate:\"max=10,min=1\" example:\"3\"`" + `
 	TestNum *int ` + "`json:\"test_num\" validate:\"required,oneof=5 7 9\" example:\"7\"`" + `
 	Content *string ` + "`json:\"content\" example:\"snow\"`" + `
-	Addresses []*Address `+ "`json:\"addresses\" validate:\"required,dive,required\"  `" + `
+	Addresses []*Address ` + "`json:\"addresses\" validate:\"required,dive,required\"  `" + `
 }
 
 // Address houses a users address information

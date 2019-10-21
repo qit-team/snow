@@ -1,15 +1,15 @@
 package bootstrap
 
 import (
-	"github.com/qit-team/snow/config"
-	"github.com/qit-team/snow/app/jobs/basejob"
-	"github.com/qit-team/snow/app/jobs"
-	"github.com/qit-team/snow-core/redis"
 	"github.com/qit-team/snow-core/db"
-	"github.com/qit-team/snow-core/kernel/container"
 	"github.com/qit-team/snow-core/kernel/close"
+	"github.com/qit-team/snow-core/kernel/container"
 	"github.com/qit-team/snow-core/log/accesslogger"
 	"github.com/qit-team/snow-core/log/logger"
+	"github.com/qit-team/snow-core/redis"
+	"github.com/qit-team/snow/app/jobs"
+	"github.com/qit-team/snow/app/jobs/basejob"
+	"github.com/qit-team/snow/config"
 )
 
 // 全局变量
@@ -17,7 +17,7 @@ var App *container.Container
 
 /**
  * 服务引导程序
-*/
+ */
 func Bootstrap(conf *config.Config) (err error) {
 	// 容器
 	App = container.App

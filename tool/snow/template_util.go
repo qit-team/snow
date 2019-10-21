@@ -1,5 +1,5 @@
 package main
 
 const (
-	_tplUtil      = ``
+	_tplUtil = ``
 )

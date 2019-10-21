@@ -10,14 +10,15 @@ var (
 	once sync.Once
 	m    *bannerModel
 )
+
 /**
  * Banner实体
  */
 type Banner struct {
-	Id        int64     `xorm:"pk autoincr"` // 注：使用getOne 或者ID() 需要设置主键
+	Id        int64 `xorm:"pk autoincr"` // 注：使用getOne 或者ID() 需要设置主键
 	Pid       int
 	Title     string
-	ImageUrl  string    `xorm:"'img_url'"`
+	ImageUrl  string `xorm:"'img_url'"`
 	Url       string
 	Status    string
 	CreatedAt time.Time

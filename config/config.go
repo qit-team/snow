@@ -2,8 +2,8 @@ package config
 
 import (
 	"github.com/BurntSushi/toml"
-	"os"
 	"github.com/qit-team/snow-core/config"
+	"os"
 )
 
 const (
@@ -30,7 +30,7 @@ func newConfig() *Config {
 	return new(Config)
 }
 
-// ------------------------ 加载配置 ------------------------// 
+// ------------------------ 加载配置 ------------------------//
 func Load(path string) (*Config, error) {
 	_, err := os.Stat(path)
 	if err != nil {

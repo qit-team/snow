@@ -3,7 +3,7 @@ package main
 import "time"
 
 var toolIndexs = []*Tool{
-	&Tool{
+	{
 		Name:      "snow",
 		Alias:     "snow",
 		BuildTime: time.Date(2019, 7, 19, 0, 0, 0, 0, time.Local),
