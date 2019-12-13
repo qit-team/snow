@@ -65,7 +65,7 @@ curl "http://127.0.0.1:8080/hello"
 ## Contributors
 
 - Tinson Ho ([@tinson](https://github.com/hetiansu5))
-- ACoderHIT
+- ACoderHIT ([@ACoderHIT](https://github.com/ACoderHIT))
 - xiongwilee ([@xiongwilee](https://github.com/xiongwilee))
 - KEL ([@deathkel](https://github.com/deathkel))
 - peterwu
