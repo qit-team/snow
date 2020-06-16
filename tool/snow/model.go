@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 	"xorm.io/core"
+	"xorm.io/xorm/schemas"
 )
 
 const (
@@ -141,7 +142,6 @@ func runModel(ctx *cli.Context) (err error) {
 		if table.Name != mt.Table {
 			continue
 		}
-
 		ok = true
 		mt.TableEntity = genTableEntity(table)
 		break
@@ -194,7 +194,7 @@ func isDirExist(path string) bool {
 }
 
 //将数据库table的定义转换为数据结构实体定义
-func genTableEntity(table *core.Table) string {
+func genTableEntity(table *schemas.Table) string {
 	columns := table.Columns()
 	snakeMapper := new(core.SnakeMapper)
 
@@ -213,7 +213,7 @@ func genTableEntity(table *core.Table) string {
 		} else if sqlType.Name == core.TimeStamp {
 			rowInfo.Type = "time.Time"
 		} else {
-			rowInfo.Type = core.SQLType2Type(sqlType).Name()
+			rowInfo.Type = schemas.SQLType2Type(sqlType).Name()
 		}
 
 		// xorm注释
