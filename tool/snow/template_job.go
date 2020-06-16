@@ -4,13 +4,15 @@ const (
 	_tplJobKernel = `package jobs
 
 import (
-	"github.com/qit-team/work"
-	"github.com/qit-team/snow-core/queue"
-	"github.com/qit-team/snow-core/log/logger"
-	"github.com/qit-team/snow-core/redis"
-	"{{.ModuleName}}/config"
-	"{{.ModuleName}}/app/jobs/basejob"
 	"strings"
+
+	"{{.ModuleName}}/app/jobs/basejob"
+	"{{.ModuleName}}/config"
+
+	"github.com/qit-team/snow-core/log/logger"
+	"github.com/qit-team/snow-core/queue"
+	"github.com/qit-team/snow-core/redis"
+	"github.com/qit-team/work"
 )
 
 /**
@@ -61,8 +63,9 @@ func SetOptions(job *work.Job) {
 
 import (
 	"fmt"
-	"github.com/qit-team/work"
 	"time"
+
+	"github.com/qit-team/work"
 )
 
 func test(task work.Task) (work.TaskResult) {
@@ -85,9 +88,10 @@ func test(task work.Task) (work.TaskResult) {
 	_tplJobBase = `package basejob
 
 import (
-	"github.com/qit-team/work"
 	"context"
 	"sync"
+
+	"github.com/qit-team/work"
 )
 
 var (

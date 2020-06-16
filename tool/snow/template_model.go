@@ -4,9 +4,10 @@ const (
 	_tplModel = `package bannermodel
 
 import (
-	"github.com/qit-team/snow-core/db"
 	"sync"
 	"time"
+
+	"github.com/qit-team/snow-core/db"
 )
 
 var (
@@ -64,10 +65,11 @@ func (m *bannerModel) GetListByPid(pid int, limits ...int) (banners []*Banner, e
 import (
 	"fmt"
 	"testing"
+
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/qit-team/snow-core/config"
 	"github.com/qit-team/snow-core/db"
 	"github.com/qit-team/snow-core/utils"
-	_ "github.com/go-sql-driver/mysql"
 )
 
 func init() {
@@ -96,9 +98,9 @@ func TestGetOne(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	} else if res != true {
-		t.Error("missing bannner data")
+		t.Error("missing banner data")
 	} else if banner.Id == 0 {
-		t.Error("missing bannner data")
+		t.Error("missing banner data")
 	}
 	fmt.Println(utils.JsonEncode(banner))
 }

@@ -4,14 +4,16 @@ const (
 	_tplControllerBase = `package controllers
 
 import (
-	"{{.ModuleName}}/app/constants/errorcode"
-	"github.com/gin-gonic/gin"
-	"net/http"
+	"bytes"
 	"encoding/json"
 	"io/ioutil"
-	"bytes"
-    "gopkg.in/go-playground/validator.v9"
-    "github.com/qit-team/snow-core/log/logger"
+	"net/http"
+
+	"{{.ModuleName}}/app/constants/errorcode"
+
+	"github.com/gin-gonic/gin"
+	"github.com/qit-team/snow-core/log/logger"
+	"gopkg.in/go-playground/validator.v9"
 )
 
 /**
@@ -96,14 +98,16 @@ func ReadBody(c *gin.Context) (body []byte, err error) {
 	_tplControllerTest = `package controllers
 
 import (
-	"github.com/gin-gonic/gin"
+	"strconv"
+	"time"
+
+	"{{.ModuleName}}/app/constants/errorcode"
+	"{{.ModuleName}}/app/http/entities"
 	"{{.ModuleName}}/app/http/formatters/bannerformatter"
 	"{{.ModuleName}}/app/services/bannerservice"
-	"{{.ModuleName}}/app/http/entities"
-	"{{.ModuleName}}/app/constants/errorcode"
-	"time"
+
+	"github.com/gin-gonic/gin"
 	"github.com/qit-team/snow-core/log/logger"
-	"strconv"
 )
 
 // hello示例
@@ -280,8 +284,9 @@ func FormatOne(banner *bannermodel.Banner) (res *BannerFormatter) {
 	_tplFormatterTest = `package bannerformatter
 
 import (
-	"{{.ModuleName}}/app/models/bannermodel"
 	"testing"
+
+	"{{.ModuleName}}/app/models/bannermodel"
 )
 
 func TesFormatOne(t *testing.T) {
@@ -323,17 +328,98 @@ func TesFormatList(t *testing.T) {
 }
 `
 
+	_tplMetric = `package metric
+
+import (
+	"net/http"
+
+	"{{.ModuleName}}/app/utils/metric"
+
+	"github.com/prometheus/client_golang/prometheus"
+)
+
+const (
+	HOST   = "host"
+	PATH   = "path"   // 路径
+	METHOD = "method" // 方法
+	CODE   = "code"   // 错误码
+
+	// metric
+	ALL_REQ_TOTAL_COUNT = "all_req_total_count" // 所有URL总请求数
+	ALL_REQ_COST_TIME   = "all_req_cost_time"   // 所有URL请求耗时
+
+	REQ_TOTAL_COUNT = "req_total_count" // 每个URL总请求数
+	REQ_COST_TIME   = "req_cost_time"   // 每个URL请求耗时
+)
+
+func init() {
+	metric.RegisterCollector(reqTotalCounter, reqCostTimeObserver, allReqTotalCounter, allReqCostTimeObserver)
+}
+
+var (
+	reqTotalCounter = prometheus.NewCounterVec(prometheus.CounterOpts{
+		Name: REQ_TOTAL_COUNT,
+	}, []string{PATH, METHOD})
+
+	reqCostTimeObserver = prometheus.NewHistogramVec(prometheus.HistogramOpts{
+		Name: REQ_COST_TIME,
+		Buckets: []float64{
+			100,
+			200,
+			500,
+			1000,
+			3000,
+			5000,
+		},
+	}, []string{PATH, METHOD})
+
+	allReqTotalCounter = prometheus.NewCounterVec(prometheus.CounterOpts{
+		Name: ALL_REQ_TOTAL_COUNT,
+	}, []string{HOST})
+
+	allReqCostTimeObserver = prometheus.NewHistogramVec(prometheus.HistogramOpts{
+		Name: ALL_REQ_COST_TIME,
+		Buckets: []float64{
+			100,
+			200,
+			500,
+			1000,
+			3000,
+			5000,
+		},
+	}, []string{HOST})
+)
+
+func AddReqCount(req *http.Request) {
+	reqTotalCounter.WithLabelValues(req.URL.Path, req.Method).Inc()
+}
+
+func CollectReqCostTime(req *http.Request, ms int64) {
+	reqCostTimeObserver.WithLabelValues(req.URL.Path, req.Method).Observe(float64(ms))
+}
+
+func AddAllReqCount(req *http.Request) {
+	allReqTotalCounter.WithLabelValues(req.Host).Inc()
+}
+
+func CollectAllReqCostTime(req *http.Request, ms int64) {
+	allReqCostTimeObserver.WithLabelValues(req.Host).Observe(float64(ms))
+}
+`
+
 	_tplMiddleWare = `package middlewares
 
 import (
 	"encoding/json"
-	"{{.ModuleName}}/app/constants/logtype"
-	"{{.ModuleName}}/config"
-	"github.com/qit-team/snow-core/log/logger"
-	"github.com/gin-gonic/gin"
 	syslog "log"
 	"net/http/httputil"
 	"runtime/debug"
+
+	"{{.ModuleName}}/app/constants/logtype"
+	"{{.ModuleName}}/config"
+
+	"github.com/gin-gonic/gin"
+	"github.com/qit-team/snow-core/log/logger"
 )
 
 func ServerRecovery() gin.HandlerFunc {
@@ -373,6 +459,30 @@ func ServerRecovery() gin.HandlerFunc {
 }
 `
 
+	_tplMiddleWreMetric = `package middlewares
+
+import (
+	"time"
+
+	"{{.ModuleName}}/app/http/metric"
+
+	"github.com/gin-gonic/gin"
+)
+
+func CollectMetric() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		start := time.Now()
+		ctx.Next()
+		dur := time.Now().Sub(start).Milliseconds()
+
+		metric.AddAllReqCount(ctx.Request)
+		metric.CollectAllReqCostTime(ctx.Request, dur)
+		metric.AddReqCount(ctx.Request)
+		metric.CollectReqCostTime(ctx.Request, dur)
+	}
+}
+`
+
 	_tplRoute = `package routes
 
 /**
@@ -381,9 +491,12 @@ func ServerRecovery() gin.HandlerFunc {
 import (
 	"{{.ModuleName}}/app/http/controllers"
 	"{{.ModuleName}}/app/http/middlewares"
+	"{{.ModuleName}}/app/utils/metric"
+	"{{.ModuleName}}/config"
+
 	"github.com/gin-gonic/gin"
 	"github.com/qit-team/snow-core/http/middleware"
-    "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
@@ -391,6 +504,15 @@ import (
 func RegisterRoute(router *gin.Engine) {
 	//middleware: 服务错误处理 => 生成请求id => access log
 	router.Use(middlewares.ServerRecovery(), middleware.GenRequestId, middleware.GenContextKit, middleware.AccessLog())
+
+	if config.IsEnvEqual(config.ProdEnv) {
+		router.Use(middlewares.CollectMetric())
+		metric.Init()
+		metricHandler := metric.Handler()
+		router.GET("/metrics", func(ctx *gin.Context) {
+			metricHandler.ServeHTTP(ctx.Writer, ctx.Request)
+		})
+	}
 
 	router.NoRoute(controllers.Error404)
 	router.GET("/hello", controllers.HandleHello)

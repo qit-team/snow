@@ -4,15 +4,16 @@ const (
 	_tplBootstrap = `package bootstrap
 
 import (
-	"{{.ModuleName}}/config"
-	"{{.ModuleName}}/app/jobs/basejob"
 	"{{.ModuleName}}/app/jobs"
-	"github.com/qit-team/snow-core/redis"
+	"{{.ModuleName}}/app/jobs/basejob"
+	"{{.ModuleName}}/config"
+
 	"github.com/qit-team/snow-core/db"
-	"github.com/qit-team/snow-core/kernel/container"
 	"github.com/qit-team/snow-core/kernel/close"
+	"github.com/qit-team/snow-core/kernel/container"
 	"github.com/qit-team/snow-core/log/accesslogger"
 	"github.com/qit-team/snow-core/log/logger"
+	"github.com/qit-team/snow-core/redis"
 )
 
 //全局变量

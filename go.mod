@@ -13,10 +13,10 @@ require (
 	github.com/go-xorm/xorm v0.7.4
 	github.com/leodido/go-urn v1.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.2 // indirect
+	github.com/prometheus/client_golang v0.9.3-0.20190127221311-3c4408c8b829
 	github.com/qit-team/snow-core v0.1.10
 	github.com/qit-team/work v0.3.4
 	github.com/robfig/cron v1.2.0
-	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14 // indirect
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.6.2
 	github.com/urfave/cli v1.20.0

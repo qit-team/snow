@@ -14,8 +14,10 @@ const (
 	_tplBannerListCache = `package bannerlistcache
 
 import (
-	"{{.ModuleName}}/app/caches"
 	"sync"
+
+	"{{.ModuleName}}/app/caches"
+
 	"github.com/qit-team/snow-core/cache"
 )
 
@@ -50,11 +52,13 @@ func GetInstance() *bannerListCache {
 import (
 	"context"
 	"fmt"
-	"{{.ModuleName}}/config"
-	"github.com/qit-team/snow-core/redis"
 	"testing"
+
+	"{{.ModuleName}}/config"
+
 	"github.com/qit-team/snow-core/cache"
 	_ "github.com/qit-team/snow-core/cache/rediscache"
+	"github.com/qit-team/snow-core/redis"
 )
 
 func init() {

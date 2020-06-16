@@ -37,37 +37,38 @@ go 1.12
 
 require (
 	github.com/BurntSushi/toml v0.3.1
+	github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
 	github.com/gin-gonic/gin v1.4.0
+	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/go-sql-driver/mysql v1.4.1
+	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/qit-team/snow-core v0.1.10
 	github.com/qit-team/work v0.3.5
 	github.com/robfig/cron v1.2.0
-    gopkg.in/go-playground/validator.v9 v9.29.1
-    github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
-    github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14 // indirect
-    github.com/swaggo/gin-swagger v1.2.0
-    github.com/swaggo/swag v1.6.2
+	github.com/swaggo/gin-swagger v1.2.0
+	github.com/swaggo/swag v1.6.2
+	gopkg.in/go-playground/validator.v9 v9.29.1
 )
 `
 
 	_tplMain = `package main
 
 import (
-	"{{.ModuleName}}/config"
-	"{{.ModuleName}}/app/http/routes"
-	"{{.ModuleName}}/app/console"
-	"{{.ModuleName}}/app/jobs"
-	"{{.ModuleName}}/bootstrap"
-    _ "{{.ModuleName}}/docs"
+	"errors"
 	"fmt"
 	"os"
-	"errors"
-	"github.com/qit-team/snow-core/kernel/server"
-	//启用本程序需要的各驱动
+
+	"{{.ModuleName}}/app/console"
+	"{{.ModuleName}}/app/http/routes"
+	"{{.ModuleName}}/app/jobs"
+	"{{.ModuleName}}/bootstrap"
+	"{{.ModuleName}}/config"
+	_ "{{.ModuleName}}/docs"
+
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/qit-team/snow-core/cache/rediscache"
+	"github.com/qit-team/snow-core/kernel/server"
 	_ "github.com/qit-team/snow-core/queue/redisqueue"
-	//_ "github.com/qit-team/snow-core/queue/alimnsqueue"
 )
 
 // @title Swagger Example API
