@@ -68,7 +68,7 @@ curl "http://127.0.0.1:8080/hello"
 - ACoderHIT ([@ACoderHIT](https://github.com/ACoderHIT))
 - xiongwilee ([@xiongwilee](https://github.com/xiongwilee))
 - KEL ([@deathkel](https://github.com/deathkel))
-- peterwu
+- peterwu ([@peterwu](https://github.com/yukunwu))
 
 
 
