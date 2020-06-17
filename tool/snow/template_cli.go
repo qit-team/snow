@@ -17,7 +17,7 @@ import (
 
 	"github.com/ouqiang/goutil"
 	"github.com/qit-team/snow-core/kernel/server"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 )
 
 var (
@@ -28,8 +28,7 @@ var (
 
 func init() {
 	app = cli.NewApp()
-	app.Name = "{{.ModuleName}}"
-	app.Usage = "{{.ModuleName}} service"
+	app.Usage = "snow service"
 	app.Version, _ = goutil.FormatAppVersion(AppVersion, GitCommit, BuildDate)
 	app.Commands = commands()
 	app.Flags = flags()
@@ -37,36 +36,38 @@ func init() {
 }
 
 // get Commands
-func commands() []cli.Command {
+func commands() []*cli.Command {
 	appCommand := cli.Command{
 		Name:  "a",
 		Usage: "application to run",
-		Subcommands: []cli.Command{
+		Subcommands: []*cli.Command{
 			// api
 			{
 				Name:  "api",
 				Usage: "run api server",
-				Action: func(ctx *cli.Context) {
-					pDir := ctx.GlobalString("p")
+				Action: func(ctx *cli.Context) error {
+					pDir := ctx.String("p")
 					pidFile := genPidFile("api", pDir)
 					if config.IsDebug() {
 						server.SetDebug(true)
 					}
 					if err := server.StartHttp(pidFile, config.GetConf().Api, routes.RegisterRoute); err != nil {
-						log.Fatal(err)
+						return err
 					}
+					return nil
 				},
 			},
 			// cron
 			{
 				Name:  "cron",
 				Usage: "run cron server",
-				Action: func(ctx *cli.Context) {
-					pDir := ctx.GlobalString("p")
+				Action: func(ctx *cli.Context) error {
+					pDir := ctx.String("p")
 					pidFile := genPidFile("cron", pDir)
 					if err := server.StartConsole(pidFile, console.RegisterSchedule); err != nil {
-						log.Fatal(err)
+						return err
 					}
+					return nil
 				},
 			},
 			// job
@@ -79,13 +80,11 @@ func commands() []cli.Command {
 						Usage: "topics of queue is enable",
 					},
 				},
-				Action: func(ctx *cli.Context) {
+				Action: func(ctx *cli.Context) error {
 					jobs.SetEnableQueue(ctx.String("queue"))
-					pDir := ctx.GlobalString("p")
+					pDir := ctx.String("p")
 					pidFile := genPidFile("job", pDir)
-					if err := server.StartJob(pidFile, jobs.RegisterWorker); err != nil {
-						log.Fatal(err)
-					}
+					return server.StartJob(pidFile, jobs.RegisterWorker)
 				},
 			},
 			// command
@@ -98,11 +97,9 @@ func commands() []cli.Command {
 						Usage: "command name",
 					},
 				},
-				Action: func(ctx *cli.Context) {
+				Action: func(ctx *cli.Context) error {
 					command := ctx.String("m")
-					if err := server.ExecuteCommand(command, console.RegisterCommand); err != nil {
-						log.Fatal(err)
-					}
+					return server.ExecuteCommand(command, console.RegisterCommand)
 				},
 			},
 		},
@@ -110,12 +107,12 @@ func commands() []cli.Command {
 	cmdCommand := cli.Command{
 		Name:  "k",
 		Usage: "status|stop|restart",
-		Action: func(ctx *cli.Context) {
-			if ctx.NArg() == 0 {
+		Action: func(ctx *cli.Context) error {
+			if ctx.Args().Len() == 0 {
 				log.Fatalf("do not specified parameter 'status|stop|restart'")
 			}
-			cmd := ctx.Args()[0]
-			pDir := ctx.GlobalString("p")
+			cmd := ctx.Args().First()
+			pDir := ctx.String("p")
 			pidFile := genPidFile("api", pDir)
 			err := server.HandleUserCmd(cmd, pidFile)
 			if err != nil {
@@ -124,19 +121,20 @@ func commands() []cli.Command {
 				log.Printf("Handle user command(%s) succ", cmd)
 			}
 			os.Exit(0)
+			return nil
 		},
 	}
-	return []cli.Command{appCommand, cmdCommand}
+	return []*cli.Command{&appCommand, &cmdCommand}
 }
 
 // get Flags
 func flags() []cli.Flag {
-	confFlag := cli.StringFlag{
+	confFlag := &cli.StringFlag{
 		Name:  "c",
 		Usage: "conf file path",
 		Value: ".env",
 	}
-	pidFlag := cli.StringFlag{
+	pidFlag := &cli.StringFlag{
 		Name:  "p",
 		Usage: "pid directory",
 		Value: "/var/run/",
@@ -145,7 +143,7 @@ func flags() []cli.Flag {
 }
 
 func before(ctx *cli.Context) error {
-	confFile := ctx.GlobalString("c")
+	confFile := ctx.String("c")
 
 	//加载配置
 	conf, err := config.Load(confFile)
