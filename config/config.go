@@ -26,10 +26,6 @@ type Config struct {
 	Api   config.ApiConfig   `toml:"Api"`
 }
 
-func newConfig() *Config {
-	return new(Config)
-}
-
 // ------------------------ 加载配置 ------------------------//
 func Load(path string) (*Config, error) {
 	_, err := os.Stat(path)
@@ -37,7 +33,7 @@ func Load(path string) (*Config, error) {
 		return nil, err
 	}
 
-	conf := newConfig()
+	conf := new(Config)
 	if _, err := toml.DecodeFile(path, conf); err != nil {
 		return nil, err
 	}

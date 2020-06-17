@@ -50,8 +50,8 @@ const (
 	_tplTypeUtil
 	_tplTypeUtilMetric
 	_tplTypeBootstrap
+	_tplTypeCli
 	_tplTypeConfig
-	_tplTypeOption
 	_tplTypeBuildBin
 	_tplTypeBuildShell
 	_tplTypeDocs
@@ -105,9 +105,10 @@ var (
 		_tplTypeUtilMetric: "/app/utils/metric/reporter.go",
 		//init bootstrap
 		_tplTypeBootstrap: "/bootstrap/bootstrap.go",
+		//init cli
+		_tplTypeCli: "/cli/cli.go",
 		//init config
 		_tplTypeConfig: "/config/config.go",
-		_tplTypeOption: "/config/option.go",
 		//init build
 		_tplTypeBuildBin:   "/build/bin/.gitignore",
 		_tplTypeBuildShell: "/build/shell/build.sh",
@@ -150,8 +151,8 @@ var (
 		_tplTypeUtil:                _tplUtil,
 		_tplTypeUtilMetric:          _tplUtilsMetric,
 		_tplTypeBootstrap:           _tplBootstrap,
+		_tplTypeCli:                 _tplCli,
 		_tplTypeConfig:              _tplConfig,
-		_tplTypeOption:              _tplOption,
 		_tplTypeBuildBin:            _tplBuildBin,
 		_tplTypeBuildShell:          _tplBuildShell,
 		_tplTypeDocs:                _tplDocs,

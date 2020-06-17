@@ -5,10 +5,15 @@ import (
 	"github.com/qit-team/snow-core/queue"
 	"github.com/qit-team/snow-core/redis"
 	"github.com/qit-team/snow/app/jobs/basejob"
-	"github.com/qit-team/snow/config"
 	"github.com/qit-team/work"
 	"strings"
 )
+
+var enableQueues string
+
+func SetEnableQueue(q string) {
+	enableQueues = q
+}
 
 /**
  * 配置队列任务
@@ -47,8 +52,8 @@ func SetOptions(job *work.Job) {
 	job.SetLogger(logger.GetLogger())
 
 	// 设置启用的topic，未设置表示启用全部注册过topic
-	if config.GetOptions().Queue != "" {
-		topics := strings.Split(config.GetOptions().Queue, ",")
+	if enableQueues != "" {
+		topics := strings.Split(enableQueues, ",")
 		job.SetEnableTopics(topics...)
 	}
 }

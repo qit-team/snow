@@ -13,6 +13,6 @@ arch=$2 #架构amd64
 rootPath=$(cd ` + "`dirname $0`" + `/../../; pwd)
 
 #编译
-GOOS=$os GOARCH=$arch go build -o build/bin/snow main.go
+GOOS=$os GOARCH=$arch go build -o build/bin/{{.ModuleName}} main.go
 `
 )

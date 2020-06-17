@@ -11,10 +11,10 @@ sh build/shell/build.sh
 
 ### Run
 ` + "```" + `shell
-1. build/bin/snow -a api  #启动Api服务
-2. build/bin/snow -a cron #启动Cron定时任务服务
-3. build/bin/snow -a job  #启动队列调度服务
-4. build/bin/snow -a command -m test  #执行名称为test的脚本任务
+1. build/bin/{{.ModuleName}} a api  #启动Api服务
+2. build/bin/{{.ModuleName}} a cron #启动Cron定时任务服务
+3. build/bin/{{.ModuleName}} a job -queue test  #启动队列调度服务
+4. build/bin/{{.ModuleName}} a command -m test  #执行名称为test的脚本任务
 ` + "```" + `
 
 ## Documents
@@ -37,37 +37,46 @@ go 1.12
 
 require (
 	github.com/BurntSushi/toml v0.3.1
-	github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
-	github.com/gin-gonic/gin v1.4.0
-	github.com/go-playground/universal-translator v0.17.0 // indirect
-	github.com/go-sql-driver/mysql v1.4.1
-	github.com/leodido/go-urn v1.2.0 // indirect
-	github.com/qit-team/snow-core v0.1.10
-	github.com/qit-team/work v0.3.5
+	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
+	github.com/fatih/color v1.9.0
+	github.com/gin-gonic/gin v1.6.3
+	github.com/go-openapi/spec v0.19.8 // indirect
+	github.com/go-openapi/swag v0.19.9 // indirect
+	github.com/go-playground/validator/v10 v10.3.0 // indirect
+	github.com/go-sql-driver/mysql v1.5.0
+	github.com/golang/protobuf v1.4.2 // indirect
+	github.com/mailru/easyjson v0.7.1 // indirect
+	github.com/ouqiang/goutil v1.2.3
+	github.com/prometheus/client_golang v1.6.0
+	github.com/qit-team/snow-core v0.1.19
+	github.com/qit-team/work v0.3.9
 	github.com/robfig/cron v1.2.0
 	github.com/swaggo/gin-swagger v1.2.0
-	github.com/swaggo/swag v1.6.2
-	gopkg.in/go-playground/validator.v9 v9.29.1
+	github.com/swaggo/swag v1.6.7
+	github.com/urfave/cli v1.22.4
+	github.com/valyala/fasttemplate v1.1.0 // indirect
+	golang.org/x/net v0.0.0-20200602114024-627f9648deb9 // indirect
+	golang.org/x/sys v0.0.0-20200602225109-6fdc65e7d980 // indirect
+	golang.org/x/tools v0.0.0-20200601175630-2caf76543d99 // indirect
+	google.golang.org/protobuf v1.24.0 // indirect
+	gopkg.in/go-playground/validator.v9 v9.31.0
+	gopkg.in/yaml.v2 v2.3.0 // indirect
+	xorm.io/core v0.7.3
+	xorm.io/xorm v1.0.2
 )
 `
 
 	_tplMain = `package main
 
 import (
-	"errors"
-	"fmt"
+	"log"
 	"os"
 
-	"{{.ModuleName}}/app/console"
-	"{{.ModuleName}}/app/http/routes"
-	"{{.ModuleName}}/app/jobs"
-	"{{.ModuleName}}/bootstrap"
-	"{{.ModuleName}}/config"
+	"{{.ModuleName}}/cli"
 	_ "{{.ModuleName}}/docs"
 
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/qit-team/snow-core/cache/rediscache"
-	"github.com/qit-team/snow-core/kernel/server"
 	_ "github.com/qit-team/snow-core/queue/redisqueue"
 )
 
@@ -113,65 +122,9 @@ import (
 // @authorizationUrl https://example.com/oauth/authorize
 // @scope.admin Grants read and write access to administrative information
 func main() {
-	//解析启动命令
-	opts := config.GetOptions()
-	if opts.ShowVersion {
-		fmt.Printf("%s\ncommit %s\nbuilt on %s\n", server.Version, server.BuildCommit, server.BuildDate)
-		os.Exit(0)
+	if err := cli.GetApp().Run(os.Args); err != nil {
+		log.Fatal(err)
 	}
-
-	handleCmd(opts)
-
-	err := startServer(opts)
-	if err != nil {
-		fmt.Printf("server start error, %s\n", err)
-		os.Exit(1)
-	}
-}
-
-//执行(status|stop|restart)命令
-func handleCmd(opts *config.Options) {
-	if opts.Cmd != "" {
-		pidFile := opts.GenPidFile()
-		err := server.HandleUserCmd(opts.Cmd, pidFile)
-		if err != nil {
-			fmt.Printf("Handle user command(%s) error, %s\n", opts.Cmd, err)
-		} else {
-			fmt.Printf("Handle user command(%s) succ \n ", opts.Cmd)
-		}
-		os.Exit(0)
-	}
-}
-
-func startServer(opts *config.Options) (err error) {
-	//加载配置
-	conf, err := config.Load(opts.ConfFile)
-	if err != nil {
-		return
-	}
-
-	//引导程序
-	err = bootstrap.Bootstrap(conf)
-	if err != nil {
-		return
-	}
-
-	pidFile := opts.GenPidFile()
-
-	//根据启动命令行参数，决定启动哪种服务模式
-	switch opts.App {
-	case "api":
-		err = server.StartHttp(pidFile, conf.Api, routes.RegisterRoute)
-	case "cron":
-		err = server.StartConsole(pidFile, console.RegisterSchedule)
-	case "job":
-		err = server.StartJob(pidFile, jobs.RegisterWorker)
-	case "command":
-		err = server.ExecuteCommand(opts.Command, console.RegisterCommand)
-	default:
-		err = errors.New("no server start")
-	}
-	return
 }
 `
 

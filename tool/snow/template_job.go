@@ -7,13 +7,18 @@ import (
 	"strings"
 
 	"{{.ModuleName}}/app/jobs/basejob"
-	"{{.ModuleName}}/config"
 
 	"github.com/qit-team/snow-core/log/logger"
 	"github.com/qit-team/snow-core/queue"
 	"github.com/qit-team/snow-core/redis"
 	"github.com/qit-team/work"
 )
+
+var enableQueues string
+
+func SetEnableQueue(q string) {
+	enableQueues = q
+}
 
 /**
  * 配置队列任务
@@ -48,12 +53,12 @@ func RegisterQueueDriver(job *work.Job) {
  * 设置配置参数
  */
 func SetOptions(job *work.Job) {
-	//设置logger，需要实现work.Logger接口的方法
+	// 设置logger，需要实现work.Logger接口的方法
 	job.SetLogger(logger.GetLogger())
 
-	//设置启用的topic，未设置表示启用全部注册过topic
-	if config.GetOptions().Queue != "" {
-		topics := strings.Split(config.GetOptions().Queue, ",")
+	// 设置启用的topic，未设置表示启用全部注册过topic
+	if enableQueues != "" {
+		topics := strings.Split(enableQueues, ",")
 		job.SetEnableTopics(topics...)
 	}
 }
