@@ -507,7 +507,7 @@ func RegisterRoute(router *gin.Engine) {
 
 	if config.IsEnvEqual(config.ProdEnv) {
 		router.Use(middlewares.CollectMetric())
-		metric.Init()
+		metric.Init(metric.EnableRuntime(), metric.EnableProcess())
 		metricHandler := metric.Handler()
 		router.GET("/metrics", func(ctx *gin.Context) {
 			metricHandler.ServeHTTP(ctx.Writer, ctx.Request)
