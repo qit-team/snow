@@ -32,14 +32,14 @@ func init() {
 	app.Version, _ = goutil.FormatAppVersion(AppVersion, GitCommit, BuildDate)
 	app.Commands = commands()
 	app.Flags = flags()
-	app.Before = before
 }
 
 // get Commands
 func commands() []*cli.Command {
 	appCommand := cli.Command{
-		Name:  "a",
-		Usage: "application to run",
+		Name:     "a",
+		Usage:    "application to run",
+		Before:   before,
 		Subcommands: []*cli.Command{
 			// api
 			{
