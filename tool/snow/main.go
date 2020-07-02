@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 	"os"
 )
 
@@ -11,19 +11,19 @@ func main() {
 	app.Name = "snow"
 	app.Usage = "snow工具集"
 	app.Version = Version
-	app.Commands = []cli.Command{
+	app.Commands = []*cli.Command{
 		{
 			Name:    "new",
 			Aliases: []string{"n"},
 			Usage:   "create new project",
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:        "path, p",
 					Value:       "",
 					Usage:       "directory for create project, default: current position",
 					Destination: &p.Path,
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:        "module, m",
 					Usage:       "project module name, for go mod init",
 					Destination: &p.ModuleName,
@@ -36,31 +36,31 @@ func main() {
 			Aliases: []string{"m"},
 			Usage:   "create new model",
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:        "path, p",
 					Value:       "",
 					Usage:       "project directory, default: current position",
 					Destination: &m.Path,
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:        "table, t",
 					Value:       "",
 					Usage:       "table name for new model, default: model name",
 					Destination: &m.Table,
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:        "dsn, d",
 					Value:       "",
 					Usage:       "database dsn config, default: GetEnv('SNOW_DSN') or 'root:123456@tcp(localhost:3306)/test'",
 					Destination: &m.DSN,
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:        "db, b",
 					Value:       "",
 					Usage:       "database name, will replace dsn's database",
 					Destination: &m.DB,
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:        "driver, r",
 					Value:       "",
 					Usage:       "driver type, default: mysql",
@@ -89,7 +89,7 @@ func main() {
 			Usage:   "generate doc",
 
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:        "path, p",
 					Value:       "",
 					Usage:       "project directory, default: current position",

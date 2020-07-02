@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 	"xorm.io/core"
 	"xorm.io/xorm"
 	"xorm.io/xorm/schemas"
@@ -85,11 +85,11 @@ func init() {
 
 //new model
 func runModel(ctx *cli.Context) (err error) {
-	if len(ctx.Args()) == 0 {
+	if ctx.Args().Len() == 0 {
 		return errors.New("required model name")
 	}
 
-	m.Name = ctx.Args()[0]
+	m.Name = ctx.Args().First()
 	if m.Name == "" {
 		return errors.New("model name is empty")
 	}
