@@ -34,9 +34,9 @@ func init() {
 // get Commands
 func commands() []*cli.Command {
 	appCommand := cli.Command{
-		Name:     "a",
-		Usage:    "application to run",
-		Before:   before,
+		Name:   "a",
+		Usage:  "application to run",
+		Before: before,
 		Subcommands: []*cli.Command{
 			// api
 			{
