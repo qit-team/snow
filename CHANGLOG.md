@@ -1,3 +1,9 @@
+## Version 1.2.2 (2020-07-07)
+
+### Changes
+- 使用 github.com/urfave/cli/v2 作为脚手架 command 命令行管理
+- 引入prometheus metrics收集的中间件
+
 ## Version 1.2.1 (2020-06-16)
 
 ### Changes
