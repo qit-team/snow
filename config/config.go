@@ -17,13 +17,14 @@ var srvConf *Config
 
 // ------------------------配置文件解析
 type Config struct {
-	Env   string             `toml:"Env"`
-	Debug bool               `toml:"Debug"`
-	Log   config.LogConfig   `toml:"Log"`
-	Redis config.RedisConfig `toml:"Redis"`
-	Mns   config.MnsConfig   `toml:"AliMns"`
-	Db    config.DbConfig    `toml:"Db"`
-	Api   config.ApiConfig   `toml:"Api"`
+	Env                     string             `toml:"Env"`
+	Debug                   bool               `toml:"Debug"`
+	PrometheusCollectEnable bool               `toml:"PrometheusCollectEnable"`
+	Log                     config.LogConfig   `toml:"Log"`
+	Redis                   config.RedisConfig `toml:"Redis"`
+	Mns                     config.MnsConfig   `toml:"AliMns"`
+	Db                      config.DbConfig    `toml:"Db"`
+	Api                     config.ApiConfig   `toml:"Api"`
 }
 
 // ------------------------ 加载配置 ------------------------//

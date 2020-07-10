@@ -50,7 +50,7 @@ func toolAction(c *cli.Context) (err error) {
 			pwd, _ := os.Getwd()
 			var args []string
 			if c.NArg() > 1 {
-				args = []string(c.Args())[1:]
+				args = c.Args().Slice()[1:]
 			}
 			runTool(t.Name, pwd, t.toolPath(), args)
 			return

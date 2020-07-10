@@ -505,7 +505,7 @@ func RegisterRoute(router *gin.Engine) {
 	//middleware: 服务错误处理 => 生成请求id => access log
 	router.Use(middlewares.ServerRecovery(), middleware.GenRequestId, middleware.GenContextKit, middleware.AccessLog())
 
-	if config.IsEnvEqual(config.ProdEnv) {
+	if config.GetConf().PrometheusCollectEnable && config.IsEnvEqual(config.ProdEnv) {
 		router.Use(middlewares.CollectMetric())
 		metric.Init(metric.EnableRuntime(), metric.EnableProcess())
 		metricHandler := metric.Handler()

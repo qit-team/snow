@@ -132,6 +132,7 @@ func main() {
 # Wiki：https://github.com/toml-lang/toml
 Debug = true
 Env = "local" # local-本地 develop-开发 beta-预发布 production-线上
+PrometheusCollectEnable = true
 
 [Log]
 Handler = "file"
