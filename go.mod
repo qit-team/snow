@@ -14,6 +14,7 @@ require (
 	github.com/golang/protobuf v1.4.2 // indirect
 	github.com/mailru/easyjson v0.7.1 // indirect
 	github.com/mattn/go-colorable v0.1.2 // indirect
+	github.com/prometheus/client_golang v0.9.3-0.20190127221311-3c4408c8b829
 	github.com/qit-team/snow-core v0.1.19
 	github.com/qit-team/work v0.3.9
 	github.com/robfig/cron v1.2.0

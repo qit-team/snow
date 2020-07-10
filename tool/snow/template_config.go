@@ -4,8 +4,9 @@ const (
 	_tplConfig = `package config
 
 import (
-	"github.com/BurntSushi/toml"
 	"os"
+
+	"github.com/BurntSushi/toml"
 	"github.com/qit-team/snow-core/config"
 )
 

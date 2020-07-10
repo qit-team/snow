@@ -4,10 +4,13 @@ package routes
  * 配置路由
  */
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/qit-team/snow-core/http/middleware"
 	"github.com/qit-team/snow/app/http/controllers"
 	"github.com/qit-team/snow/app/http/middlewares"
+	"github.com/qit-team/snow/app/utils/metric"
+	"github.com/qit-team/snow/config"
+
+	"github.com/gin-gonic/gin"
+	"github.com/qit-team/snow-core/http/middleware"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
@@ -16,6 +19,15 @@ import (
 func RegisterRoute(router *gin.Engine) {
 	// middleware: 服务错误处理 => 生成请求id => access log
 	router.Use(middlewares.ServerRecovery(), middleware.GenRequestId, middleware.GenContextKit, middleware.AccessLog())
+
+	if config.GetConf().PrometheusCollectEnable && config.IsEnvEqual(config.ProdEnv) {
+		router.Use(middlewares.CollectMetric())
+		metric.Init(metric.EnableRuntime(), metric.EnableProcess())
+		metricHandler := metric.Handler()
+		router.GET("/metrics", func(ctx *gin.Context) {
+			metricHandler.ServeHTTP(ctx.Writer, ctx.Request)
+		})
+	}
 
 	router.NoRoute(controllers.Error404)
 	router.GET("/hello", controllers.HandleHello)

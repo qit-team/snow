@@ -1,9 +1,4 @@
-package main
-
-const (
-	_tplUtil = ``
-
-	_tplUtilsMetric = `package metric
+package metric
 
 // prometheus metric：unique identifier: name and optional key-value pairs called labels
 //   1. name regexp: [a-zA-Z_:][a-zA-Z0-9_:]*
@@ -180,5 +175,3 @@ func Handler() http.Handler {
 		reporter.registerer, promhttp.HandlerFor(reporter.gatherer, promhttp.HandlerOpts{}),
 	)
 }
-`
-)

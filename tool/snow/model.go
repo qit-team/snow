@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	"xorm.io/xorm"
-	"github.com/urfave/cli"
 	"os"
 	"strconv"
 	"strings"
+
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/urfave/cli"
 	"xorm.io/core"
+	"xorm.io/xorm"
 	"xorm.io/xorm/schemas"
 )
 
