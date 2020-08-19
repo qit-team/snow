@@ -6,11 +6,13 @@ package routes
 import (
 	"github.com/qit-team/snow/app/http/controllers"
 	"github.com/qit-team/snow/app/http/middlewares"
+	"github.com/qit-team/snow/app/http/trace"
 	"github.com/qit-team/snow/app/utils/metric"
 	"github.com/qit-team/snow/config"
 
 	"github.com/gin-gonic/gin"
 	"github.com/qit-team/snow-core/http/middleware"
+	"github.com/qit-team/snow-core/log/logger"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
@@ -27,6 +29,15 @@ func RegisterRoute(router *gin.Engine) {
 		router.GET("/metrics", func(ctx *gin.Context) {
 			metricHandler.ServeHTTP(ctx.Writer, ctx.Request)
 		})
+	}
+
+	if len(config.GetConf().SkyWalkingOapServer) > 0 && config.IsEnvEqual(config.ProdEnv) {
+		err := trace.InitTracer(config.GetConf().ServiceName, config.GetConf().SkyWalkingOapServer)
+		if err != nil {
+			logger.Error(nil, "InitTracer", err.Error())
+		} else {
+			router.Use(middlewares.Trace())
+		}
 	}
 
 	router.NoRoute(controllers.Error404)

@@ -1,3 +1,8 @@
+## Version 1.2.3 (2020-08-19)
+
+### Changes
+- 引入skyWalking服务追踪的中间件
+
 ## Version 1.2.2 (2020-07-02)
 
 ### Changes
