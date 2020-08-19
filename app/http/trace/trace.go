@@ -1,21 +1,29 @@
 package trace
 
 import (
+	"sync"
+
 	"github.com/SkyAPM/go2sky"
 	"github.com/SkyAPM/go2sky/reporter"
 	"github.com/qit-team/snow/config"
 )
 
-var tracer *go2sky.Tracer
+var (
+	tracer *go2sky.Tracer
+	lock   sync.Mutex
+)
 
 func Tracer() (*go2sky.Tracer, error) {
 	if tracer == nil {
-		err := InitTracer(config.GetConf().ServiceName, config.GetConf().SkyWalkingOapServer)
-		if err != nil {
-			return nil, err
+		lock.Lock()
+		defer lock.Unlock()
+		if tracer == nil {
+			err := InitTracer(config.GetConf().ServiceName, config.GetConf().SkyWalkingOapServer)
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
-
 	return tracer, nil
 }
 
