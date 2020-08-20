@@ -181,7 +181,6 @@ func Handler() http.Handler {
 	)
 }
 `
-
 	_tplUtilsHttpClient = `package httpclient
 
 import (
@@ -192,7 +191,7 @@ import (
 	"time"
 
 	"{{.ModuleName}}/app/http/trace"
-	"{{.ModuleName}}/snow/config"
+	"{{.ModuleName}}/config"
 
 	"github.com/SkyAPM/go2sky"
 	"github.com/SkyAPM/go2sky/propagation"

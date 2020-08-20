@@ -106,8 +106,8 @@ var (
 		//init service
 		_tplTypeService: "/app/services/bannerservice/banner.go",
 		//init util
-		_tplTypeUtil:       "/app/utils/.gitkeep",
-		_tplTypeUtilMetric: "/app/utils/metric/reporter.go",
+		_tplTypeUtil:           "/app/utils/.gitkeep",
+		_tplTypeUtilMetric:     "/app/utils/metric/reporter.go",
 		_tplTypeUtilHttpClient: "/app/utils/httpclient/httpclient.go",
 		//init bootstrap
 		_tplTypeBootstrap: "/bootstrap/bootstrap.go",
