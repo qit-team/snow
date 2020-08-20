@@ -1,19 +1,29 @@
 package controllers
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/qit-team/snow-core/log/logger"
+	"strconv"
+	"time"
+
 	"github.com/qit-team/snow/app/constants/errorcode"
 	"github.com/qit-team/snow/app/http/entities"
 	"github.com/qit-team/snow/app/http/formatters/bannerformatter"
 	"github.com/qit-team/snow/app/services/bannerservice"
-	"strconv"
-	"time"
+	"github.com/qit-team/snow/app/utils/httpclient"
+
+	"github.com/gin-gonic/gin"
+	"github.com/qit-team/snow-core/log/logger"
 )
 
 // hello示例
 func HandleHello(c *gin.Context) {
 	logger.Debug(c, "hello", "test message")
+	client := httpclient.NewClient(c.Request.Context())
+	resposne, err := client.R().Get("https://www.baidu.com")
+	if err != nil {
+		Error(c, errorcode.SystemError, err.Error())
+		return
+	}
+	logger.Info(c, "HandleHello", resposne.String())
 	Success(c, "hello world!")
 	return
 }

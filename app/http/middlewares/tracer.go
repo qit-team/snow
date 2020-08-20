@@ -27,7 +27,7 @@ func Trace() gin.HandlerFunc {
 		}
 		r := c.Request
 		operationName := fmt.Sprintf("/%s%s", r.Method, r.URL.Path)
-		span, _, err := tracer.CreateEntrySpan(r.Context(), operationName, func() (string, error) {
+		span, ctx, err := tracer.CreateEntrySpan(c, operationName, func() (string, error) {
 			return r.Header.Get(propagation.Header), nil
 		})
 		if err != nil {
@@ -39,6 +39,7 @@ func Trace() gin.HandlerFunc {
 		span.Tag(go2sky.TagHTTPMethod, r.Method)
 		span.Tag(go2sky.TagURL, fmt.Sprintf("%s%s", r.Host, r.URL.Path))
 		span.SetSpanLayer(v3.SpanLayer_Http)
+		c.Request = c.Request.WithContext(ctx)
 		c.Next()
 		code := c.Writer.Status()
 		if code >= 400 {

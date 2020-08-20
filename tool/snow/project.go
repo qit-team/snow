@@ -51,6 +51,7 @@ const (
 	_tplTypeService
 	_tplTypeUtil
 	_tplTypeUtilMetric
+	_tplTypeUtilHttpClient
 	_tplTypeBootstrap
 	_tplTypeConfig
 	_tplTypeOption
@@ -107,6 +108,7 @@ var (
 		//init util
 		_tplTypeUtil:       "/app/utils/.gitkeep",
 		_tplTypeUtilMetric: "/app/utils/metric/reporter.go",
+		_tplTypeUtilHttpClient: "/app/utils/httpclient/httpclient.go",
 		//init bootstrap
 		_tplTypeBootstrap: "/bootstrap/bootstrap.go",
 		//init config
@@ -155,6 +157,7 @@ var (
 		_tplTypeService:                    _tplService,
 		_tplTypeUtil:                       _tplUtil,
 		_tplTypeUtilMetric:                 _tplUtilsMetric,
+		_tplTypeUtilHttpClient:             _tplUtilsHttpClient,
 		_tplTypeBootstrap:                  _tplBootstrap,
 		_tplTypeConfig:                     _tplConfig,
 		_tplTypeOption:                     _tplOption,

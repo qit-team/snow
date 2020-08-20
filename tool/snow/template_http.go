@@ -105,6 +105,7 @@ import (
 	"{{.ModuleName}}/app/http/entities"
 	"{{.ModuleName}}/app/http/formatters/bannerformatter"
 	"{{.ModuleName}}/app/services/bannerservice"
+	"{{.ModuleName}}/app/utils/httpclient"
 
 	"github.com/gin-gonic/gin"
 	"github.com/qit-team/snow-core/log/logger"
@@ -113,6 +114,13 @@ import (
 // hello示例
 func HandleHello(c *gin.Context) {
 	logger.Debug(c, "hello", "test message")
+	client := httpclient.NewClient(c.Request.Context())
+	resposne, err := client.R().Get("https://www.baidu.com")
+	if err != nil {
+		Error(c, errorcode.SystemError, err.Error())
+		return
+	}
+	logger.Info(c, "HandleHello", resposne.String())
 	Success(c, "hello world!")
 	return
 }
@@ -536,12 +544,13 @@ import (
 	"strconv"
 	"time"
 
+	"{{.ModuleName}}/app/http/trace"
+
 	"github.com/SkyAPM/go2sky"
 	"github.com/SkyAPM/go2sky/propagation"
 	v3 "github.com/SkyAPM/go2sky/reporter/grpc/language-agent"
 	"github.com/gin-gonic/gin"
 	"github.com/qit-team/snow-core/log/logger"
-	"{{.ModuleName}}/app/http/trace"
 )
 
 const (
@@ -558,7 +567,7 @@ func Trace() gin.HandlerFunc {
 		}
 		r := c.Request
 		operationName := fmt.Sprintf("/%s%s", r.Method, r.URL.Path)
-		span, _, err := tracer.CreateEntrySpan(r.Context(), operationName, func() (string, error) {
+		span, ctx, err := tracer.CreateEntrySpan(c, operationName, func() (string, error) {
 			return r.Header.Get(propagation.Header), nil
 		})
 		if err != nil {
@@ -570,6 +579,7 @@ func Trace() gin.HandlerFunc {
 		span.Tag(go2sky.TagHTTPMethod, r.Method)
 		span.Tag(go2sky.TagURL, fmt.Sprintf("%s%s", r.Host, r.URL.Path))
 		span.SetSpanLayer(v3.SpanLayer_Http)
+		c.Request = c.Request.WithContext(ctx)
 		c.Next()
 		code := c.Writer.Status()
 		if code >= 400 {
