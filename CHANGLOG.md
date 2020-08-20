@@ -1,7 +1,8 @@
-## Version 1.2.3 (2020-08-19)
+## Version 1.2.3 (2020-08-20)
 
 ### Changes
 - 引入skyWalking服务追踪的中间件
+- 二次封装 github.com/go-resty/resty/v2 支持skyWalking链路追踪,作为默认Http Client
 
 ## Version 1.2.2 (2020-07-02)
 
