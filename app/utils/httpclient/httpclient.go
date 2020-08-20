@@ -61,6 +61,8 @@ type transport struct {
 
 func (t *transport) RoundTrip(req *http.Request) (resp *http.Response, err error) {
 	span, err := t.tracer.CreateExitSpan(t.ctx, fmt.Sprintf("/%s%s", req.Method, req.URL.Path), req.Host, func(header string) error {
+		// 将本层的调用链信息写入http头部, 传入到下一层调用
+		// https://github.com/apache/skywalking/blob/master/docs/en/protocols/Skywalking-Cross-Process-Propagation-Headers-Protocol-v3.md
 		req.Header.Set(propagation.Header, header)
 		return nil
 	})

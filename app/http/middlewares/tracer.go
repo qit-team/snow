@@ -28,6 +28,8 @@ func Trace() gin.HandlerFunc {
 		r := c.Request
 		operationName := fmt.Sprintf("/%s%s", r.Method, r.URL.Path)
 		span, ctx, err := tracer.CreateEntrySpan(c, operationName, func() (string, error) {
+			// 从http头部捞取上一层的调用链信息
+			// https://github.com/apache/skywalking/blob/master/docs/en/protocols/Skywalking-Cross-Process-Propagation-Headers-Protocol-v3.md
 			return r.Header.Get(propagation.Header), nil
 		})
 		if err != nil {
