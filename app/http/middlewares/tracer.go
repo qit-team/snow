@@ -28,7 +28,7 @@ func Trace() gin.HandlerFunc {
 		r := c.Request
 		operationName := fmt.Sprintf("/%s%s", r.Method, r.URL.Path)
 		span, ctx, err := tracer.CreateEntrySpan(c, operationName, func() (string, error) {
-			// 从http头部捞取上一层的调用链信息
+			// 从http头部捞取上一层的调用链信息, 当前使用v3版本的协议
 			// https://github.com/apache/skywalking/blob/master/docs/en/protocols/Skywalking-Cross-Process-Propagation-Headers-Protocol-v3.md
 			return r.Header.Get(propagation.Header), nil
 		})
@@ -38,6 +38,7 @@ func Trace() gin.HandlerFunc {
 			return
 		}
 		span.SetComponent(componentIDGOHttpServer)
+		// 可以自定义tag
 		span.Tag(go2sky.TagHTTPMethod, r.Method)
 		span.Tag(go2sky.TagURL, fmt.Sprintf("%s%s", r.Host, r.URL.Path))
 		span.SetSpanLayer(v3.SpanLayer_Http)

@@ -15,6 +15,7 @@ var (
 
 func Tracer() (*go2sky.Tracer, error) {
 	if tracer == nil {
+		// 有err, 不适合用sync.Once做单例
 		lock.Lock()
 		defer lock.Unlock()
 		if tracer == nil {
@@ -28,15 +29,10 @@ func Tracer() (*go2sky.Tracer, error) {
 }
 
 func InitTracer(serviceName, skyWalkingOapServer string) error {
-	var (
-		report go2sky.Reporter
-		err    error
-	)
-	report, err = reporter.NewGRPCReporter(skyWalkingOapServer)
+	report, err := reporter.NewGRPCReporter(skyWalkingOapServer)
 	if err != nil {
 		return err
 	}
-
 	tracer, err = go2sky.NewTracer(serviceName, go2sky.WithReporter(report))
 	if err != nil {
 		return err

@@ -420,9 +420,10 @@ func CollectAllReqCostTime(req *http.Request, ms int64) {
 import (
 	"sync"
 
+	"{{.ModuleName}}/config"
+
 	"github.com/SkyAPM/go2sky"
 	"github.com/SkyAPM/go2sky/reporter"
-	"{{.ModuleName}}/config"
 )
 
 var (
@@ -432,6 +433,7 @@ var (
 
 func Tracer() (*go2sky.Tracer, error) {
 	if tracer == nil {
+		// 有err, 不适合用sync.Once做单例
 		lock.Lock()
 		defer lock.Unlock()
 		if tracer == nil {
@@ -445,11 +447,7 @@ func Tracer() (*go2sky.Tracer, error) {
 }
 
 func InitTracer(serviceName, skyWalkingOapServer string) error {
-	var (
-		report go2sky.Reporter
-		err    error
-	)
-	report, err = reporter.NewGRPCReporter(skyWalkingOapServer)
+	report, err := reporter.NewGRPCReporter(skyWalkingOapServer)
 	if err != nil {
 		return err
 	}
@@ -568,6 +566,8 @@ func Trace() gin.HandlerFunc {
 		r := c.Request
 		operationName := fmt.Sprintf("/%s%s", r.Method, r.URL.Path)
 		span, ctx, err := tracer.CreateEntrySpan(c, operationName, func() (string, error) {
+			// 从http头部捞取上一层的调用链信息, 当前使用v3版本的协议
+			// https://github.com/apache/skywalking/blob/master/docs/en/protocols/Skywalking-Cross-Process-Propagation-Headers-Protocol-v3.md
 			return r.Header.Get(propagation.Header), nil
 		})
 		if err != nil {
@@ -576,6 +576,7 @@ func Trace() gin.HandlerFunc {
 			return
 		}
 		span.SetComponent(componentIDGOHttpServer)
+		// 可以自定义tag
 		span.Tag(go2sky.TagHTTPMethod, r.Method)
 		span.Tag(go2sky.TagURL, fmt.Sprintf("%s%s", r.Host, r.URL.Path))
 		span.SetSpanLayer(v3.SpanLayer_Http)
