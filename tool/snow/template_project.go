@@ -177,8 +177,11 @@ func startServer(opts *config.Options) (err error) {
 
 	_tplEnv = `# toml配置文件
 # Wiki：https://github.com/toml-lang/toml
+ServiceName = "snow"
 Debug = true
 Env = "local" # local-本地 develop-开发 beta-预发布 production-线上
+PrometheusCollectEnable = true
+SkyWalkingOapServer = "127.0.0.1:11800"
 
 [Log]
 Handler = "file"

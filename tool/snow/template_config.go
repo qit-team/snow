@@ -21,13 +21,16 @@ var srvConf *Config
 
 //------------------------配置文件解析
 type Config struct {
-	Env   string             ` + "`toml:\"Env\"`" + `
-	Debug bool               ` + "`toml:\"Debug\"`" + `
-	Log   config.LogConfig   ` + "`toml:\"Log\"`" + `
-	Redis config.RedisConfig ` + "`toml:\"Redis\"`" + `
-	Mns   config.MnsConfig   ` + "`toml:\"AliMns\"`" + `
-	Db    config.DbConfig    ` + "`toml:\"Db\"`" + `
-	Api   config.ApiConfig   ` + "`toml:\"Api\"`" + `
+	ServiceName             string             ` + "`toml:\"ServiceName\"`" + `
+	Env                     string             ` + "`toml:\"Env\"`" + `
+	Debug                   bool               ` + "`toml:\"Debug\"`" + `
+	PrometheusCollectEnable bool               ` + "`toml:\"PrometheusCollectEnable\"`" + `
+	SkyWalkingOapServer     string             ` + "`toml:\"SkyWalkingOapServer\"`" + `
+	Log                     config.LogConfig   ` + "`toml:\"Log\"`" + `
+	Redis                   config.RedisConfig ` + "`toml:\"Redis\"`" + `
+	Mns                     config.MnsConfig   ` + "`toml:\"AliMns\"`" + `
+	Db                      config.DbConfig    ` + "`toml:\"Db\"`" + `
+	Api                     config.ApiConfig   ` + "`toml:\"Api\"`" + `
 }
 
 func newConfig() *Config {

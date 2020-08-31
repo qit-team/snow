@@ -105,6 +105,7 @@ import (
 	"{{.ModuleName}}/app/http/entities"
 	"{{.ModuleName}}/app/http/formatters/bannerformatter"
 	"{{.ModuleName}}/app/services/bannerservice"
+	"{{.ModuleName}}/app/utils/httpclient"
 
 	"github.com/gin-gonic/gin"
 	"github.com/qit-team/snow-core/log/logger"
@@ -113,6 +114,13 @@ import (
 // hello示例
 func HandleHello(c *gin.Context) {
 	logger.Debug(c, "hello", "test message")
+	client := httpclient.NewClient(c.Request.Context())
+	resposne, err := client.R().Get("https://www.baidu.com")
+	if err != nil {
+		Error(c, errorcode.SystemError, err.Error())
+		return
+	}
+	logger.Info(c, "HandleHello", resposne.String())
 	Success(c, "hello world!")
 	return
 }
@@ -407,6 +415,50 @@ func CollectAllReqCostTime(req *http.Request, ms int64) {
 }
 `
 
+	_tplSkyWalkingTracer = `package trace
+
+import (
+	"sync"
+
+	"{{.ModuleName}}/config"
+
+	"github.com/SkyAPM/go2sky"
+	"github.com/SkyAPM/go2sky/reporter"
+)
+
+var (
+	tracer *go2sky.Tracer
+	lock   sync.Mutex
+)
+
+func Tracer() (*go2sky.Tracer, error) {
+	if tracer == nil {
+		// 有err, 不适合用sync.Once做单例
+		lock.Lock()
+		defer lock.Unlock()
+		if tracer == nil {
+			err := InitTracer(config.GetConf().ServiceName, config.GetConf().SkyWalkingOapServer)
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
+	return tracer, nil
+}
+
+func InitTracer(serviceName, skyWalkingOapServer string) error {
+	report, err := reporter.NewGRPCReporter(skyWalkingOapServer)
+	if err != nil {
+		return err
+	}
+	tracer, err = go2sky.NewTracer(serviceName, go2sky.WithReporter(report))
+	if err != nil {
+		return err
+	}
+	return nil
+}
+`
+
 	_tplMiddleWare = `package middlewares
 
 import (
@@ -483,6 +535,63 @@ func CollectMetric() gin.HandlerFunc {
 }
 `
 
+	_tplMiddleWreSkyWalkingTracer = `package middlewares
+
+import (
+	"fmt"
+	"strconv"
+	"time"
+
+	"{{.ModuleName}}/app/http/trace"
+
+	"github.com/SkyAPM/go2sky"
+	"github.com/SkyAPM/go2sky/propagation"
+	v3 "github.com/SkyAPM/go2sky/reporter/grpc/language-agent"
+	"github.com/gin-gonic/gin"
+	"github.com/qit-team/snow-core/log/logger"
+)
+
+const (
+	componentIDGOHttpServer = 5004
+)
+
+func Trace() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		tracer, err := trace.Tracer()
+		if err != nil {
+			logger.Error(c, "Trace", err.Error())
+			c.Next()
+			return
+		}
+		r := c.Request
+		operationName := fmt.Sprintf("/%s%s", r.Method, r.URL.Path)
+		span, ctx, err := tracer.CreateEntrySpan(c, operationName, func() (string, error) {
+			// 从http头部捞取上一层的调用链信息, 当前使用v3版本的协议
+			// https://github.com/apache/skywalking/blob/master/docs/en/protocols/Skywalking-Cross-Process-Propagation-Headers-Protocol-v3.md
+			return r.Header.Get(propagation.Header), nil
+		})
+		if err != nil {
+			logger.Error(c, "Trace", err.Error())
+			c.Next()
+			return
+		}
+		span.SetComponent(componentIDGOHttpServer)
+		// 可以自定义tag
+		span.Tag(go2sky.TagHTTPMethod, r.Method)
+		span.Tag(go2sky.TagURL, fmt.Sprintf("%s%s", r.Host, r.URL.Path))
+		span.SetSpanLayer(v3.SpanLayer_Http)
+		c.Request = c.Request.WithContext(ctx)
+		c.Next()
+		code := c.Writer.Status()
+		if code >= 400 {
+			span.Error(time.Now(), fmt.Sprintf("Error on handling request, statusCode: %d", code))
+		}
+		span.Tag(go2sky.TagStatusCode, strconv.Itoa(code))
+		span.End()
+	}
+}
+`
+
 	_tplRoute = `package routes
 
 /**
@@ -491,11 +600,13 @@ func CollectMetric() gin.HandlerFunc {
 import (
 	"{{.ModuleName}}/app/http/controllers"
 	"{{.ModuleName}}/app/http/middlewares"
+	"{{.ModuleName}}/app/http/trace"
 	"{{.ModuleName}}/app/utils/metric"
 	"{{.ModuleName}}/config"
 
 	"github.com/gin-gonic/gin"
 	"github.com/qit-team/snow-core/http/middleware"
+	"github.com/qit-team/snow-core/log/logger"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
@@ -505,13 +616,22 @@ func RegisterRoute(router *gin.Engine) {
 	//middleware: 服务错误处理 => 生成请求id => access log
 	router.Use(middlewares.ServerRecovery(), middleware.GenRequestId, middleware.GenContextKit, middleware.AccessLog())
 
-	if config.IsEnvEqual(config.ProdEnv) {
+	if config.GetConf().PrometheusCollectEnable && config.IsEnvEqual(config.ProdEnv) {
 		router.Use(middlewares.CollectMetric())
 		metric.Init(metric.EnableRuntime(), metric.EnableProcess())
 		metricHandler := metric.Handler()
 		router.GET("/metrics", func(ctx *gin.Context) {
 			metricHandler.ServeHTTP(ctx.Writer, ctx.Request)
 		})
+	}
+
+	if len(config.GetConf().SkyWalkingOapServer) > 0 && config.IsEnvEqual(config.ProdEnv) {
+		err := trace.InitTracer(config.GetConf().ServiceName, config.GetConf().SkyWalkingOapServer)
+		if err != nil {
+			logger.Error(nil, "InitTracer", err.Error())
+		} else {
+			router.Use(middlewares.Trace())
+		}
 	}
 
 	router.NoRoute(controllers.Error404)

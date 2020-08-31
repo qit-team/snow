@@ -38,8 +38,10 @@ const (
 	_tplTypeFormatter
 	_tplTypeFormatterTest
 	_tplTypeMetric
+	_tplTypeSkyWalkingTracer
 	_tplTypeMiddleWare
 	_tplTypeMiddleWareMetric
+	_tplTypeMiddleWareSkyWalkingTracer
 	_tplTypeRoute
 	_tplTypeJobBase
 	_tplTypeJobKernel
@@ -49,6 +51,7 @@ const (
 	_tplTypeService
 	_tplTypeUtil
 	_tplTypeUtilMetric
+	_tplTypeUtilHttpClient
 	_tplTypeBootstrap
 	_tplTypeConfig
 	_tplTypeOption
@@ -82,15 +85,17 @@ var (
 		_tplTypeConstantErrorCode: "/app/constants/errorcode/error_code.go",
 		_tplTypeConstantLogType:   "/app/constants/logtype/log_type.go",
 		//init http
-		_tplTypeControllerBase:   "/app/http/controllers/base.go",
-		_tplTypeControllerTest:   "/app/http/controllers/test.go",
-		_tplTypeEntity:           "/app/http/entities/test.go",
-		_tplTypeFormatter:        "/app/http/formatters/bannerformatter/banner.go",
-		_tplTypeFormatterTest:    "/app/http/formatters/bannerformatter/banner_test.go",
-		_tplTypeMetric:           "/app/http/metric/metric.go",
-		_tplTypeMiddleWare:       "/app/http/middlewares/server_recovery.go",
-		_tplTypeMiddleWareMetric: "/app/http/middlewares/metric.go",
-		_tplTypeRoute:            "/app/http/routes/route.go",
+		_tplTypeControllerBase:             "/app/http/controllers/base.go",
+		_tplTypeControllerTest:             "/app/http/controllers/test.go",
+		_tplTypeEntity:                     "/app/http/entities/test.go",
+		_tplTypeFormatter:                  "/app/http/formatters/bannerformatter/banner.go",
+		_tplTypeFormatterTest:              "/app/http/formatters/bannerformatter/banner_test.go",
+		_tplTypeMetric:                     "/app/http/metric/metric.go",
+		_tplTypeSkyWalkingTracer:           "/app/http/trace/trace.go",
+		_tplTypeMiddleWare:                 "/app/http/middlewares/server_recovery.go",
+		_tplTypeMiddleWareMetric:           "/app/http/middlewares/metric.go",
+		_tplTypeMiddleWareSkyWalkingTracer: "/app/http/middlewares/tracer.go",
+		_tplTypeRoute:                      "/app/http/routes/route.go",
 		//init job
 		_tplTypeJobBase:   "/app/jobs/basejob/base_job.go",
 		_tplTypeJobKernel: "/app/jobs/kernel.go",
@@ -101,8 +106,9 @@ var (
 		//init service
 		_tplTypeService: "/app/services/bannerservice/banner.go",
 		//init util
-		_tplTypeUtil:       "/app/utils/.gitkeep",
-		_tplTypeUtilMetric: "/app/utils/metric/reporter.go",
+		_tplTypeUtil:           "/app/utils/.gitkeep",
+		_tplTypeUtilMetric:     "/app/utils/metric/reporter.go",
+		_tplTypeUtilHttpClient: "/app/utils/httpclient/httpclient.go",
 		//init bootstrap
 		_tplTypeBootstrap: "/bootstrap/bootstrap.go",
 		//init config
@@ -116,45 +122,48 @@ var (
 	}
 	// tpls type => content
 	tpls = map[int]string{
-		_tplTypeReadme:              _tplReadme,
-		_tplTypeGitignore:           _tplGitignore,
-		_tplTypeGoMod:               _tplGoMod,
-		_tplTypeMain:                _tplMain,
-		_tplTypeEnv:                 _tplEnv,
-		_tplTypeEnvExample:          _tplEnv,
-		_tplTypeLog:                 _tplLog,
-		_tplTypeCacheKey:            _tplCacheKey,
-		_tplTypeBannerListCache:     _tplBannerListCache,
-		_tplTypeBannerListCacheTest: _tplBannerListCacheTest,
-		_tplTypeConsoleKernel:       _tplConsoleKernel,
-		_tplTypeConsoleTest:         _tplConsoleTest,
-		_tplTypeCommand:             _tplCommand,
-		_tplTypeConstantCommon:      _tplConstantCommon,
-		_tplTypeConstantErrorCode:   _tplConstantErrorCode,
-		_tplTypeConstantLogType:     _tplConstantLogType,
-		_tplTypeControllerBase:      _tplControllerBase,
-		_tplTypeControllerTest:      _tplControllerTest,
-		_tplTypeEntity:              _tplEntity,
-		_tplTypeFormatter:           _tplFormatter,
-		_tplTypeFormatterTest:       _tplFormatterTest,
-		_tplTypeMetric:              _tplMetric,
-		_tplTypeMiddleWare:          _tplMiddleWare,
-		_tplTypeMiddleWareMetric:    _tplMiddleWreMetric,
-		_tplTypeRoute:               _tplRoute,
-		_tplTypeJobBase:             _tplJobBase,
-		_tplTypeJobKernel:           _tplJobKernel,
-		_tplTypeJobTest:             _tplJobTest,
-		_tplTypeModel:               _tplModel,
-		_tplTypeModelTest:           _tplModelTest,
-		_tplTypeService:             _tplService,
-		_tplTypeUtil:                _tplUtil,
-		_tplTypeUtilMetric:          _tplUtilsMetric,
-		_tplTypeBootstrap:           _tplBootstrap,
-		_tplTypeConfig:              _tplConfig,
-		_tplTypeOption:              _tplOption,
-		_tplTypeBuildBin:            _tplBuildBin,
-		_tplTypeBuildShell:          _tplBuildShell,
-		_tplTypeDocs:                _tplDocs,
+		_tplTypeReadme:                     _tplReadme,
+		_tplTypeGitignore:                  _tplGitignore,
+		_tplTypeGoMod:                      _tplGoMod,
+		_tplTypeMain:                       _tplMain,
+		_tplTypeEnv:                        _tplEnv,
+		_tplTypeEnvExample:                 _tplEnv,
+		_tplTypeLog:                        _tplLog,
+		_tplTypeCacheKey:                   _tplCacheKey,
+		_tplTypeBannerListCache:            _tplBannerListCache,
+		_tplTypeBannerListCacheTest:        _tplBannerListCacheTest,
+		_tplTypeConsoleKernel:              _tplConsoleKernel,
+		_tplTypeConsoleTest:                _tplConsoleTest,
+		_tplTypeCommand:                    _tplCommand,
+		_tplTypeConstantCommon:             _tplConstantCommon,
+		_tplTypeConstantErrorCode:          _tplConstantErrorCode,
+		_tplTypeConstantLogType:            _tplConstantLogType,
+		_tplTypeControllerBase:             _tplControllerBase,
+		_tplTypeControllerTest:             _tplControllerTest,
+		_tplTypeEntity:                     _tplEntity,
+		_tplTypeFormatter:                  _tplFormatter,
+		_tplTypeFormatterTest:              _tplFormatterTest,
+		_tplTypeMetric:                     _tplMetric,
+		_tplTypeSkyWalkingTracer:           _tplSkyWalkingTracer,
+		_tplTypeMiddleWare:                 _tplMiddleWare,
+		_tplTypeMiddleWareMetric:           _tplMiddleWreMetric,
+		_tplTypeMiddleWareSkyWalkingTracer: _tplMiddleWreSkyWalkingTracer,
+		_tplTypeRoute:                      _tplRoute,
+		_tplTypeJobBase:                    _tplJobBase,
+		_tplTypeJobKernel:                  _tplJobKernel,
+		_tplTypeJobTest:                    _tplJobTest,
+		_tplTypeModel:                      _tplModel,
+		_tplTypeModelTest:                  _tplModelTest,
+		_tplTypeService:                    _tplService,
+		_tplTypeUtil:                       _tplUtil,
+		_tplTypeUtilMetric:                 _tplUtilsMetric,
+		_tplTypeUtilHttpClient:             _tplUtilsHttpClient,
+		_tplTypeBootstrap:                  _tplBootstrap,
+		_tplTypeConfig:                     _tplConfig,
+		_tplTypeOption:                     _tplOption,
+		_tplTypeBuildBin:                   _tplBuildBin,
+		_tplTypeBuildShell:                 _tplBuildShell,
+		_tplTypeDocs:                       _tplDocs,
 	}
 )
 
