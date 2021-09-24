@@ -2,3 +2,4 @@
 /vendor
 /.env
 !/.env.example
+/logs
