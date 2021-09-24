@@ -3,33 +3,25 @@ module github.com/qit-team/snow
 go 1.12
 
 require (
-	github.com/BurntSushi/toml v0.3.1
-	github.com/SkyAPM/go2sky v0.5.0
+	github.com/BurntSushi/toml v0.4.1
+	github.com/SkyAPM/go2sky v0.6.0
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
-	github.com/fatih/color v1.7.0
-	github.com/gin-gonic/gin v1.6.3
-	github.com/go-openapi/spec v0.19.8 // indirect
-	github.com/go-openapi/swag v0.19.9 // indirect
-	github.com/go-playground/validator/v10 v10.3.0 // indirect
-	github.com/go-resty/resty/v2 v2.3.0
-	github.com/go-sql-driver/mysql v1.5.0
-	github.com/golang/protobuf v1.4.2 // indirect
-	github.com/mailru/easyjson v0.7.1 // indirect
-	github.com/mattn/go-colorable v0.1.2 // indirect
-	github.com/prometheus/client_golang v0.9.3-0.20190127221311-3c4408c8b829
-	github.com/qit-team/snow-core v0.1.19
-	github.com/qit-team/work v0.3.9
+	github.com/cpuguy83/go-md2man/v2 v2.0.1 // indirect
+	github.com/fatih/color v1.13.0
+	github.com/gin-gonic/gin v1.7.4
+	github.com/go-openapi/jsonreference v0.19.6 // indirect
+	github.com/go-openapi/swag v0.19.15 // indirect
+	github.com/go-resty/resty/v2 v2.6.0
+	github.com/go-sql-driver/mysql v1.6.0
+	github.com/mailru/easyjson v0.7.7 // indirect
+	github.com/prometheus/client_golang v1.11.0
+	github.com/qit-team/snow-core v0.1.27
+	github.com/qit-team/work v0.3.11
 	github.com/robfig/cron v1.2.0
-	github.com/swaggo/gin-swagger v1.2.0
-	github.com/swaggo/swag v1.6.6
-	github.com/urfave/cli v1.20.0
-	github.com/valyala/fasttemplate v1.1.0 // indirect
-	golang.org/x/net v0.0.0-20200602114024-627f9648deb9 // indirect
-	golang.org/x/sys v0.0.0-20200602225109-6fdc65e7d980 // indirect
-	golang.org/x/tools v0.0.0-20200601175630-2caf76543d99 // indirect
-	google.golang.org/protobuf v1.24.0 // indirect
+	github.com/swaggo/gin-swagger v1.3.1
+	github.com/swaggo/swag v1.7.2
+	github.com/urfave/cli v1.22.5
 	gopkg.in/go-playground/validator.v9 v9.31.0
-	gopkg.in/yaml.v2 v2.3.0 // indirect
 	xorm.io/core v0.7.3
-	xorm.io/xorm v1.0.2
+	xorm.io/xorm v1.2.4
 )
