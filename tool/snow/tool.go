@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/fatih/color"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 	"go/build"
 	"os"
 	"os/exec"
@@ -50,7 +50,7 @@ func toolAction(c *cli.Context) (err error) {
 			pwd, _ := os.Getwd()
 			var args []string
 			if c.NArg() > 1 {
-				args = []string(c.Args())[1:]
+				args = c.Args().Slice()[1:]
 			}
 			runTool(t.Name, pwd, t.toolPath(), args)
 			return
@@ -211,7 +211,7 @@ func gopath() (gp string) {
 }
 
 func installSwag() error {
-	cmdName, cmdPath, command := "swag install", gopath(), "go get -u github.com/swaggo/swag/cmd/swag"
+	cmdName, cmdPath, command := "swag install", gopath(), "go install github.com/swaggo/swag/cmd/swag@latest"
 
 	cmds := strings.Split(command, " ")
 	err := runTool(cmdName, cmdPath, cmds[0], cmds[1:])

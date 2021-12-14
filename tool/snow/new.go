@@ -3,16 +3,16 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 	"os"
 	"path"
 )
 
 func runNew(ctx *cli.Context) error {
-	if len(ctx.Args()) == 0 {
+	if ctx.Args().Len() == 0 {
 		return errors.New("required project name")
 	}
-	p.Name = ctx.Args()[0]
+	p.Name = ctx.Args().First()
 
 	if p.ModuleName == "" {
 		p.ModuleName = p.Name
