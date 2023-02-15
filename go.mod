@@ -14,7 +14,7 @@ require (
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/mailru/easyjson v0.7.7 // indirect
-	github.com/prometheus/client_golang v1.11.0
+	github.com/prometheus/client_golang v1.11.1
 	github.com/qit-team/snow-core v0.1.28
 	github.com/qit-team/work v0.3.11
 	github.com/robfig/cron v1.2.0
